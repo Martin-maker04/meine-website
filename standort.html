@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEEINTOUCH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #2d3b45;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .icons img {
+            width: 20px;
+            margin-left: 10px;
+        }
+        main {
+            padding: 20px;
+        }
+        .weather, .map, .colonies {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .weather-info {
+            display: flex;
+            align-items: center;
+        }
+        .current-weather {
+            flex: 1;
+            text-align: center;
+        }
+        .forecast {
+            display: flex;
+            flex: 2;
+            justify-content: space-around;
+        }
+        .map img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .buttons button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons button:nth-child(1) { background-color: green; color: white; }
+        .buttons button:nth-child(2) { background-color: brown; color: white; }
+        .buttons button:nth-child(3) { background-color: gray; color: white; }
+        .hives {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .hive {
+            background: #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1 1 calc(33% - 10px);
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* Style für das Popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        .popup-content input,
+        .popup-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .popup-content button {
+            padding: 10px;
+            border: none;
+            background-color: green;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="loadStandort()">
+    <header>
+        <div class="logo">BEEINTOUCH</div>
+        <nav>
+            <ul>
+                <li><a href="#">STÄNDE</a></li>
+                <li><a href="#">LAGER</a></li>
+                <li><a href="#">ZUCHT</a></li>
+                <li><a href="#">BÜRO</a></li>
+            </ul>
+        </nav>
+        <div class="icons">
+            <img src="flag_germany.png" alt="Deutsch">
+            <img src="user_icon.png" alt="Profil">
+            <img src="search_icon.png" alt="Suche">
+            <img src="faq_icon.png" alt="FAQ">
+        </div>
+    </header>
+    <main>
+        <section class="weather">
+            <h2>ZUHAUSE</h2>
+            <div class="weather-info">
+                <div class="current-weather">
+                    <p>Überwiegend bewölkt<br>5°C</p>
+                </div>
+                <div class="forecast">
+                    <div><h3>heute</h3><p>4-7°C: Leichter Regen</p></div>
+                    <div><h3>Sonntag</h3><p>3-11°C: Leichter Regen</p></div>
+                    <div><h3>Montag</h3><p>0-7°C: Regen und Schnee</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="map">
+            <h2>ADRESSE DES BIENENSTANDS</h2>
+            <img src="map_placeholder.png" alt="Karte">
+        </section>
+        <section class="colonies">
+            <h2>VÖLKER (5)</h2>
+            <div class="buttons">
+                <button onclick="showPopup()">Neues Volk hinzufügen</button>
+                <button>Auflösen</button>
+                <button>Wandern</button>
+                <button>Kopieren</button>
+            </div>
+            <div id="hivesList" class="hives">
+                <!-- Völker werden hier dynamisch geladen -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Popup für das neue Volk -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h3>Neues Volk erstellen</h3>
+            <input type="text" id="volkName" placeholder="Name des Volkes">
+            <input type="text" id="volkStatus" placeholder="Status">
+            <input type="text" id="volkVolkart" placeholder="Volkart">
+            <input type="date" id="volkLetzteAktion" placeholder="Letzte Aktion">
+            <button onclick="createHive()">Erstellen</button>
+            <button onclick="closePopup()">Abbrechen</button>
+        </div>
+    </div>
+
+    <script>
+        // Funktion, um sicherzustellen, dass Daten im localStorage existieren
+        function initializeData() {
+            if (!localStorage.getItem('standorte')) {
+                const initialData = [
+                    {
+                        name: 'Standort 1',
+                        völker: [
+                            { name: 'Blau', status: '🟢', volkart: 'Ableger', letzteAktion: '27.03.2025' },
+                            { name: 'Gelb', status: '🟢', volkart: 'Ableger', letzteAktion: '-' },
+                            { name: 'Grün', status: '⚪', volkart: 'Wirtschaftsvolk', letzteAktion: '-' },
+                        ]
+                    },
+                    {
+                        name: 'Standort 2',
+                        völker: [
+                            { name: 'Rot', status: '🟢', volkart: 'Ableger', letzteAktion: '01.04.2025' },
+                            { name: 'Schwarz', status: '⚪', volkart: 'Wirtschaftsvolk', letzteAktion: '05.04.2025' },
+                        ]
+                    }
+                ];
+                localStorage.setItem('standorte', JSON.stringify(initialData));
+            }
+        }
+
+        // Funktion, um die Standorte zu laden und Völker anzuzeigen
+        function loadStandort() {
+            initializeData(); // Initialisiert Daten, wenn sie nicht existieren
+
+            const standorte = JSON.parse(localStorage.getItem('standorte')) || [];
+            
+            // Standort-Index aus der URL holen
+            const urlParams = new URLSearchParams(window.location.search);
+            const standortIndex = urlParams.get('index');
+
+            if (standortIndex === null || !standorte[standortIndex]) {
+                alert("Standort nicht gefunden!");
+                return;
+            }
+
+            const standort = standorte[standortIndex];
+            document.querySelector("h2").innerText = "Völker für " + standort.name;  // Titel ändern
+
+            // Völker in HTML anzeigen
+            const hivesList = document.getElementById("hivesList");
+            hivesList.innerHTML = ""; // Leeren, bevor neue Völker angezeigt werden
+
+            standort.völker.forEach((volk, index) => {
+                const hiveDiv = document.createElement("div");
+                hiveDiv.classList.add("hive");
+                hiveDiv.innerHTML = `
+                    <h3>${volk.name}</h3>
+                    <p>Status: ${volk.status}</p>
+                    <p>Volkart: ${volk.volkart}</p>
+                    <p>Letzte Aktion: ${volk.letzteAktion}</p>
+                    <button onclick="editHive(${standortIndex}, ${index})">Bearbeiten</button>
+                `;
+                hivesList.appendChild(hiveDiv);
+            });
+        }
+
+        // Funktion zum Bearbeiten eines Volkes
+        function editHive(standortIndex, hiveIndex) {
+            const standorte = JSON.parse(localStorage.getItem('standorte')) || [];
+            const standort = standorte[standortIndex];
+            const volk = standort.völker[hiveIndex];
+
+            const newName = prompt("Name des Volkes ändern:", volk.name);
+            const newStatus = prompt("Status ändern:", volk.status);
+            const newVolkart = prompt("Volkart ändern:", volk.volkart);
+            const newLetzteAktion = prompt("Letzte Aktion ändern:", volk.letzteAktion);
+
+            if (newName) volk.name = newName;
+            if (newStatus) volk.status = newStatus;
+            if (newVolkart) volk.volkart = newVolkart;
+            if (newLetzteAktion) volk.letzteAktion = newLetzteAktion;
+
+            standorte[standortIndex] = standort;
+            localStorage.setItem('standorte', JSON.stringify(standorte));
+
+            window.location.reload();
+        }
+
+        // Zeigt das Popup an
+        function showPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        // Schließt das Popup
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Funktion zum Erstellen eines neuen Volkes
+        function createHive() {
+            const standorte = JSON.parse(localStorage.getItem('standorte')) || [];
+            const urlParams = new URLSearchParams(window.location.search);
+            const standortIndex = urlParams.get('index');
+
+            if (standortIndex === null || !standorte[standortIndex]) {
+                alert("Standort nicht gefunden!");
+                return;
+            }
+
+            const standort = standorte[standortIndex];
+
+            const newVolk = {
+                name: document.getElementById("volkName").value,
+                status: document.getElementById("volkStatus").value,
+                volkart: document.getElementById("volkVolkart").value,
+                letzteAktion: document.getElementById("volkLetzteAktion").value
+            };
+
+            if (newVolk.name && newVolk.status && newVolk.volkart && newVolk.letzteAktion) {
+                standort.völker.push(newVolk);
+                standorte[standortIndex] = standort;
+                localStorage.setItem('standorte', JSON.stringify(standorte));
+
+                // Hier das neue Volk dynamisch in die Anzeige einfügen
+                const hivesList = document.getElementById("hivesList");
+                const hiveDiv = document.createElement("div");
+                hiveDiv.classList.add("hive");
+                hiveDiv.innerHTML = `
+                    <h3>${newVolk.name}</h3>
+                    <p>Status: ${newVolk.status}</p>
+                    <p>Volkart: ${newVolk.volkart}</p>
+                    <p>Letzte Aktion: ${newVolk.letzteAktion}</p>
+                    <button onclick="editHive(${standortIndex}, ${standort.völker.length - 1})">Bearbeiten</button>
+                `;
+                hivesList.appendChild(hiveDiv);
+
+                closePopup(); // Popup schließen
+            } else {
+                alert("Bitte fülle alle Felder aus.");
+            }
+        }
+    </script>
+</body>
+</html>
