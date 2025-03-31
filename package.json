@@ -1,0 +1,14 @@
+{
+  "name": "beeintouch",
+  "version": "1.0.0",
+  "description": "BeeInTouch - Die Imker App",
+  "main": "backend/app.js",
+  "scripts": {
+    "start": "node backend/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.0",
+    "body-parser": "^1.19.0"
+  }
+}
