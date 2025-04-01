@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+    <link rel="preconnect" href="//app.eu.usercentrics.eu">
+    <link rel="preconnect" href="//api.eu.usercentrics.eu">
+    <link rel="preconnect" href="//sdp.eu.usercentrics.eu">
+    <link rel="preload" href="/Übersicht_files/loader.js.Download" as="script">
+    <link rel="preload" href="/Übersicht_files/uc-block.bundle.js.Download" as="script">
+
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="titel" content="BeeInTouch - Die kostenlose Imker App und Stockkarten App"/>
+    <meta name="description"
+          content="BeeInTouch - Die führende Imker App und Bienen Stockkarte für die Imkereiverwaltung. Die Imkersoftware für das Web, Android und iOS."/>
+    <meta name="keywords"
+          content="BeeInTouch, Bienen, Kassenbuch, Imkerei, Imker-App, Imkereiverwaltung, Königinnenzucht, Bienenstand, QR-Code, Lagerhaltung, Bienen-App, Stockkarte, digitale Stockkarte, gratis, kostenlos, Varroa, Imkersoftware"/>
+    <meta name="user" content="guest"/>
+
+    <script id="usercentrics-cmp" async data-eu-mode="true" data-settings-id="QMeroK8z-"
+            src="https://app.eu.usercentrics.eu/browser-ui/latest/loader.js"></script>
+    <script type="application/javascript" src="https://sdp.eu.usercentrics.eu/latest/uc-block.bundle.js"></script>
+
+
+    <meta name="csrf-param" content="_csrf">
+<meta name="csrf-token" content="B4BnrdVq0Zva-z1TNROFFWnWXhxqZaepMDiance4yjFtsRXptimO07aeYjxiI-h8K4Q1ZgYT5vt6av3HgdecQA==">
+    <title>BeeInTouch - Die Imker App und digitale Stockkarten App</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta property="fb:app_id" content="1690302861209274"/>
+    <meta property="og:title" content="BeeInTouch - Die kostenlose Imker App und Stockkarten App"/>
+    <meta property="og:description"
+          content="BeeInTouch - Die führende Imker App und Bienen Stockkarte für die Imkereiverwaltung. Die Imkersoftware für das Web, Android und iOS."/>
+    <meta property="og:url" content="https://beeintouch.de/"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="https://beeintouch.de/img/functions/stockkarte.webp"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Bee_In_Touch">
+    <meta name="twitter:creator" content="@Bee_In_Touch">
+    <meta name="twitter:title" content="BeeInTouch - Die kostenlose Imker App und Stockkarten App">
+    <meta name="twitter:description"
+          content="BeeInTouch - Die führende Imker App und Bienen Stockkarte für die Imkereiverwaltung. Die Imkersoftware für das Web, Android und iOS.">
+    <meta name="twitter:image" content="https://beeintouch.de/img/functions/stockkarte.webp">
+
+    <meta name="facebook-domain-verification" content="yz2bek8ygt2pkzsv14ncpyal9y99kh"/>
+    <link href="/Übersicht_files/bootstrap.css" rel="stylesheet">
+<link href="/Übersicht_files/main.css" rel="stylesheet">
+<link href="/Übersicht_files/font-awesome.min.css" rel="stylesheet">
+    <script>
+
+        function onReady(callback) {
+            var intervalID = window.setInterval(checkReady, 1000);
+
+            function checkReady() {
+                if (document.getElementsByTagName('body')[0] !== undefined) {
+                    window.clearInterval(intervalID);
+                    callback.call(this);
+                }
+            }
+        }
+
+        function show(id, value) {
+            var elem = document.getElementById(id);
+            if (elem !== null) {
+                elem.style.display = value ? 'block' : 'none';
+            }
+        }
+
+        onReady(function () {
+            show('loading', false);
+        });
+
+        
+    </script>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "BeeInTouch - Willi Imker App und Stockkarten App",
+            "operatingSystem": "iOS 11.0",
+            "applicationCategory": "HomeApplication",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.2",
+                "ratingCount": "231"
+            },
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR"
+            }
+        }
+
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "BeeInTouch - Willi  Imker App und Stockkarten App",
+            "operatingSystem": "ANDROID",
+            "applicationCategory": "HomeApplication",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.2",
+                "ratingCount": "63"
+            },
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR"
+            }
+        }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B8DXS476QJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-B8DXS476QJ');
+    </script>
+
+</head>
+
+
+
+
+<nav id="navbarguest"
+     class="navbar navbar-default navbar-static-top custom-navbar" style="margin-bottom: 0">
+        <div class="container">
+
+        
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">BeeInTouch</a>
+</div>
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+ <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+
+      <li class="page-scroll"><a href="/BeeInTouch - kostenlos registrieren..html"> Registrieren </a></li>
+      <li class="page-scroll"><a href="/site/infopage"> Neuigkeiten</a></li>
+      <li class="page-scroll"><a href="/site/beeintouchtv"> BeeInTouch.TV</a></li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+             aria-expanded="false">Service<span
+                      class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+              <li><a href="/site/futtercalc">Futtermenge berechnen</a>
+              </li>
+              <li>
+                  <a href="/honigkalkulation/create">Honigpreis berechnen</a>
+              </li>
+          </ul>
+      </li>
+          <li>
+              <a href="/site/shop">Shop</a>
+          </li>
+      <!--- <li class="page-scroll"><a href='https://beeintouch.ecwid.com/' target='_blank' rel='noopener noreferrer'>Shop</a></li> -->
+      <li class="page-scroll"><a href="/user/login">Login</a></li>
+      <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <img src="/img/flags/de.svg" height="18" alt="de"/> <i aria-hidden="true" class="fa fa-caret-down"></i>
+                </a>
+    <ul class="dropdown-menu dropdown-user">
+                                                        <li>
+                    <a href="/site/language?lang=en&url=%2F">
+                        <img src="/img/flags/gb.svg" height="18" alt="en"/> Englisch                    </a>
+                </li>
+                                                <li>
+                    <a href="/site/language?lang=fr&url=%2F">
+                        <img src="/img/flags/fr.svg" height="18" alt="fr"/> Französisch                    </a>
+                </li>
+                        </ul>
+</li>
+      <li><a href="#" onclick="videolayer_bootstrap.showVideo('//www.youtube.com/embed/3pdYXX3Zmfk');">?</a></li>
+      <li class="page-scroll"><a href="/site/faq"> FAQ</a></li>
+      </ul>
+</div>
+    </div>
+</nav>
+
+<div id="flashmessagecontainer"></div>
+
+
+
+<!-- Header is only visible if user is not logged in -->
+
+<header id="headercontainer">
+
+    <div class="container">
+        <div class="col-lg-12">
+            <div id="introtext" class="intro-text">
+                <span class="name">BeeInTouch</span>
+                <h1 class="skills"
+                    style="text-transform: uppercase;font-weight: 700;margin-top: 5px;">Die digitale Imkereiverwaltung und Stockkarte. </h1>
+                <div id="site-login" class="row">
+
+                    <form id="login-form" action="/user/login" method="post">
+<input type="hidden" name="_csrf" value="B4BnrdVq0Zva-z1TNROFFWnWXhxqZaepMDiance4yjFtsRXptimO07aeYjxiI-h8K4Q1ZgYT5vt6av3HgdecQA==">                    <div id="container_bit" class="col-sm-6">
+                        <div id="login-buttons" class="row control-group">
+                            <div class="form-group field-login-form-login required">
+<div class="col-xs-12" style="padding:0;"> <input type="text" id="login-form-login" class="form-control clearable" name="login-form[login]" autofocus="autofocus" tabindex="1" placeholder="Login/E-Mail" aria-required="true"><div class="help-block"></div> </div>
+</div>                            <div class="form-group field-login-form-password required">
+<div class="col-xs-12" style="padding:0;"> <input type="password" id="login-form-password" class="form-control clearable" name="login-form[password]" placeholder="Passwort" tabindex="2" aria-required="true"><div class="help-block"></div> </div>
+</div>                            <div>
+                                <p><a class="pull-left" href="/user/register" style="font-size:14px">Hier kostenlos registrieren</a></p>
+                            </div>
+
+                            <div>
+                                <p><a class="pull-right" href="/user/forgot" style="font-size:14px">Passwort vergessen?</a></p>
+                            </div>
+
+                            <div id="success"></div>
+                        </div>
+                        <div id="login-rows" class="row control-group">
+                            <div class="col-md-6" style="padding-top:5px;">
+                                <button type="submit" class="btn btn-success" style="width:100%" tabindex="3">Anmelden</button>                            </div>
+                            <div class="col-md-6"
+                                 style="color:#999; margin-top:10px; text-align: center; line-height: 51px;">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    <p>Die kostenlose Imker App zum herunterladen:</p>
+
+                    <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>
+                        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <p><strong>BeeInTouch - Willi</strong></p>
+                            <div class='col-lg-offset-1 col-lg-5 col-md-12 col-sm-12 col-xs-12'>
+                                <a href="https://apps.apple.com/de/app/beeintouch-willi-imker-app/id1326679945?itsct=apps_box_link&itscg=30200"
+                                   style="display: inline-block; height: 50px; margin: 12px;"> <img src="/img/white.svg"
+                                                                                                    alt="Download on the App Store"
+                                                                                                    style="height: 50px;"></a>
+                            </div>
+                            <div class='col-lg-6 col-md-12 col-sm-12 col-xs-12'>
+                                <a href='https://play.google.com/store/apps/details?id=de.beeintouch.appnative&utm_source=beeintouch_website&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+                                   target="_blank" rel="noopener noreferrer"><img height="60"
+                                                                                  alt='Jetzt bei Google Play'
+                                                                                  src='/img/google-play-badge.png'/></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<section id="statement">
+    <div class="container">
+        <div class="col-lg-3 hidden-xs hidden-sm" style="text-align:center">
+            <img src="/img/counter/standicon.svg" class="img-responsive funcimage" alt="Stand" height="150">
+            <div style="font-size:40px;">21.605
+            </div>
+            <p>Stände <br>eingerichtet</p>
+        </div>
+        <div class="col-lg-3 hidden-xs hidden-sm" style="text-align:center">
+            <img src="/img/counter/varokontrolle.svg" class="img-responsive funcimage" alt="Varroakontrolle"
+                 height="150">
+            <div style="font-size:40px;">2.705.010
+            </div>
+            <p>Varroen <br>gezählt</p>
+        </div>
+        <div class="col-lg-3 hidden-xs hidden-sm" style="text-align:center">
+            <img src="/img/counter/Honig.svg" class="img-responsive funcimage" alt="Honigernte" height="150">
+            <div style="font-size:40px;">1.168.590
+            </div>
+            <p>Kilo Honig <br>geerntet</p>
+        </div>
+        <div class="col-lg-3 hidden-xs hidden-sm" style="text-align:center">
+            <img src="/img/counter/fuetterung.svg" class="img-responsive funcimage" alt="Fütterung" height="150">
+            <div style="font-size:40px;">1.719.573
+            </div>
+            <p>Kilo <br>gefüttert</p>
+        </div>
+        <div class="quotecontainer">
+            <img src="/img/beequote.svg" class="img-responsive" alt="BeeInTouch - Die Imkereiverwaltung und Stockkarte">
+        </div>
+    </div>
+</section>
+<section id="portfolio">
+    <div class="container">
+
+        <div style="margin-bottom: 50px;">
+            <div class="col-lg-12 text-center">
+                <span style="font-size:3em;text-transform: uppercase;font-weight: 700;">Funktionen der Imker App</span>
+            </div>
+        </div>
+
+        <div class="row rightportfolio" style="margin-bottom: 30px;">
+            <div class="col-xs-12"><h2 class="rightheader">Stände und Völker</h2></div>
+            <div class="col-sm-6 ">
+                <img loading="lazy" src="/img/functions/stockkarte.webp" class="img-responsive funcimage"
+                     title="Bienenstände - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                     alt="BeeInTouch - Die Imkereiverwaltung und Stockkarte">
+            </div>
+            <div class="col-sm-6 " style="padding:20px;">
+                <p>Verwalten Sie mit der BeeInTouch - Imker App und Bienen App Ihre Stände, Völker und Stockkarten.</p>
+                <p>Auf einer interaktiven Karte der Imkersoftware verwalten Sie als Imker Ihre Stände und die Stockkarte zu jedem Volk. Mit wenigen Klicks erstellen Sie einen <a href="https://www.youtube.com/watch?v=gjEhn34GNyQ" target = "_blank">neuen Stand</a>.</p>
+                <p>Für jeden Stand können Sie beliebig viele Völker anlegen und mit der Stockkarten App ganz einfach digital verwalten.                    Für jedes Bienenvolk lassen sich alle wichtigen Details wie Kontrollen, Krankheitsbehandlungen, Wanderung, Fütterung, Ernten, Durchschauen,                     Umweiselungen, Wanderungen und Varroakontrollen / -behandlungen in einer virtuellen Stockkarte mit dieser Imkersoftware festhalten. </p>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-xs-12"><h2
+                        class="leftheader">Einfach Scannen mit der Stockkarten App</h2></div>
+            <div class="col-sm-push-6 col-sm-6 ">
+                <img loading="lazy" style="float: right;" src="/img/functions/imker-app.webp"
+                     class="img-responsive funcimage" title="Die Imker-App"
+                     alt="Die Imker-App">
+            </div>
+            <div class="col-sm-pull-6 col-sm-6 " style="padding:20px;">
+                <p>Mit der Imkereiverwaltung App müssen Sie Stockkarten nicht lästig auswählen. Greifen Sie einfach mittels eines <a href="https://de.wikipedia.org/wiki/QR-Code" target = "_blank">QR-Codes</a> oder <a href="https://de.wikipedia.org/wiki/Near_Field_Communication" target = "_blank"  rel="noopener noreferrer">NFC-Chips</a> mit der Imker App auf Ihrem Handy digital auf Ihre Stockkarten zu.</p>
+                <p>Für jedes Volk wird ein <a href="https://de.wikipedia.org/wiki/QR-Code" target = "_blank">QR-Code</a> oder ein <a href="https://de.wikipedia.org/wiki/Near_Field_Communication" target = "_blank"  rel="noopener noreferrer">NFC-Chip</a> erstellt. Diesen können Sie am Bienenstock anbringen. Beim Scannen des QR-Codes oder des NFC-Chips wird automatisch die richtige Stockkarte geladen.</p>
+                <p>Mit Hilfe der Multi-Scan Funktion für NFC-Chips und QR-Codes in BeeInTouch - Willi können Sie auch mehrere Völker nacheinander scannen und dann für die gescannten Völker eine Aktion durchführen, wie z.B. eine Wanderung, Varroabehandlung oder Fütterung anlegen.</p>
+                <p>Eine Videoanleitung zu NFC-Chips finden Sie hier: <a href="https://www.youtube.com/watch?v=oT9YOodGkvQ" target = "_blank"  rel="noopener">BeeInTouch Videoanleitung - NFC Chips</a></p>
+            </div>
+        </div>
+        <div class="row  rightportfolio" style="margin-bottom: 30px;">
+            <div class="col-xs-12"><h2 class="rightheader">Todos und Termie</h2></div>
+            <div class="col-sm-6 ">
+                <img loading="lazy" src="/img/standactions/todo_white.svg" class="img-responsive funcimage"
+                     title="Todos & Termine - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                     alt="Todos & Termine">
+            </div>
+            <div class="col-sm-6 " style="padding:20px">
+                <p>Mit BeeInTouch kann der Imker alle Todos und Termine rund um die Imkerei organisieren.</p>
+                <p>Todos können in der Imker-App BeeInTouch - Willi direkt am Stand angelegt werden und direkt einem Stand oder auch einem speziellen Volk auf dem Stand zugeordnet werden.</p>
+                <p>Es kann zu dem Todo eine Priorität und ein Fälligkeitsdatum angegeben werden, einen Tag bevor das Todo fällig ist, wirst Du per Push-Notification daran erinnert.</p>
+                <p>Wenn Ihr mit mehreren Imkern zusammen arbeitet, kannst Du auch direkt einem Kollegen ein Todo einstellen. Es ist natürlich auch möglich eine Todoliste als pdf zu exportieren und auszudrucken.</p>
+                <p>In der Imkersoftware kannst Du auch noch alle Termine der Imkerei verwalten, leg einfach einen einzelnen Termin oder gleich eine Terminserie an und gib genau an, wann Du an diesen Termin erinnert werden willst.</p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-xs-12"><h2 class="leftheader">Individuelle Durchschau</h2></div>
+            <div class="col-sm-push-6 col-sm-6 ">
+                <img loading="lazy" style="float: right;" src="/img/standactions/durchsicht_white.svg"
+                     class="img-responsive funcimage"
+                     title="Individuelle Durchschau - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                     alt="Individuelle Durchschau">
+            </div>
+            <div class="col-sm-pull-6 col-sm-6 " style="padding:20px;">
+                <p>Jeder Imker weiß am besten, was bei der <a href="https://www.youtube.com/watch?v=fgWW1wMz-GM" target = "_blank"  rel="noopener">Durchschau</a> der Bienen beurteilt werden soll.</p>
+                <p>Jeder Imker hat einen anderen Schwerpunkt, worauf er bei der Durchschau achtet. Ob Sanftmut, die Menge der Bienen, die Vitalität, die Außentemperatur am Stand automatisch vom Wetterserver oder der Wabenbau - bei der Durchschau lassen sich viele Gegebenheiten kontrollieren.</p>
+                <p>Alles, was für einen Imker aufschlussreich sein könnte, ist individuell nach eigenem Wunsch bei BeeInTouch abbildbar. Mit wenigen Klicks werden die wichtigen Kriterien ausgewählt und automatisch Durchschau-Dialog im Web und in BeeInTouch - Willi angezeigt.</p>
+                <p>In der Imker- App wählt man aus über <strong>70 verschiedenen Kriterien</strong> die passenden Felder aus, die man bei einer <a href="https://www.youtube.com/watch?v=fgWW1wMz-GM" target = "_blank"  rel="noopener">Durchschau</a> beurteilen und dokumentieren möchte.</p>
+            </div>
+
+            <div class="row rightportfolio" style="margin-bottom: 30px;">
+                <div class="col-xs-12"><h2 class="rightheader">Lager- & Chargenverwaltung</h2>
+                </div>
+                <div class="col-sm-6 ">
+                    <img loading="lazy" src="/img/functions/lager.webp" class="img-responsive funcimage"
+                         title="Lager - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                         alt="Lager">
+                </div>
+                <div class="col-sm-6 " style="padding:20px;">
+                    <p>Verwalten Sie Ihre Honigbestände, Arbeitsmaterialien und Verbrauchsmaterial in unserer zentralen Imkereisoftware, der Imkereiverwaltung von BeeInTouch.</p>
+                    <p>Durch das <a href="https://www.youtube.com/watch?v=V7nultK8DFg" target = "_blank"  rel="noopener">Lager</a> behalten Sie mit der Imkersoftware immer den Überlick über Ihre Honigvorräte. Beim Nachbestellen von Arbeitsmaterialien und Verbrauchsmaterial reicht ein kurzer Blick auf die Imker App, um den Bedarf abzuschätzen.</p>
+                    <p>Mit Hilfe der <a href="https://www.youtube.com/watch?v=2dJq_iwdsTk" target = "_blank"  rel="noopener">Chargenverwaltung</a> kann der Honig vom abgefüllten Honigglas über den Bienenstand bis hin zum Bienenvolk das den Honig gesammelt hat zurückverfolgt werden.</p>
+                    <p>Um möglichst einfach Chargen bilden zu können, haben wir uns in der Imkereiverwaltung einen Prozess für Imker überlegt, mit dem Sie ohne viel Aufwand mit der Stockkarten App BeeInTouch jede einzelne Honigernte einfach zurückverfolgen können. <a href="https://www.youtube.com/watch?v=lwRey2lVHIs" target = "_blank"  rel="noopener">Der Prozess</a> zum einfachen erstellen von Chargen vom Glas bis zu Bienenvolk.</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="col-xs-12"><h2 class="leftheader">Königinnenzucht</h2></div>
+                <div class="col-sm-push-6 col-sm-6 ">
+                    <img loading="lazy" style="float: right;" src="/img/functions/imkereiverwaltung.png"
+                         class="img-responsive funcimage"
+                         title="Königinnenzucht - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                         alt="Imkereiverwaltung">
+                </div>
+                <div class="col-sm-pull-6 col-sm-6 " style="padding:20px;">
+                    <p>Erhalten Sie einen kompletten und systematischen Überblick über alle Ihre Zuchtreihen mit der BeeInTouch Imker und Stockkarten App BeeInTouch - Willi.</p>
+                    <p>In der Übersicht können Sie sehr einfach einen Überblick über die vorhandenen Zuchtreihen bekommen. Sehen Sie auf den ersten Blick, welche Arbeiten als nächstet durchzuführen sind.</p>
+                    <p>In der Detailansicht verwalten Sie alle anstehenden Stadien und Daten für ein Volk. Verpassen Sie mit dieser Imkerei Software durch eine automatische E-Mail Benachrichtigung kein Ereignis.</p>
+                    <p>Mit der <a href="https://www.youtube.com/watch?v=j9Mb84gseQQ" target = "_blank"  rel="noopener">BeeInTouch - Zuchtselektion</a> können Sie mit wenigen Klicks in der Imkersoftware herausfinden, welches Ihrer Völker am besten für die Zucht geeignet ist.</p>
+                </div>
+            </div>
+
+
+            <div class="row  rightportfolio" style="margin-bottom: 30px;">
+                <div class="col-xs-12"><h2 class="rightheader">Auswertungen</h2></div>
+                <div class="col-sm-6 ">
+                    <img loading="lazy" src="/img/functions/reports.png" class="img-responsive funcimage"
+                         title="Auswertungen - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                         alt="Auswertungen">
+                </div>
+                <div class="col-sm-6 " style="padding:20px">
+                    <p>Die BeeInTouch Imkersoftware für die Imkereiverwaltung bietet Ihnen eine umfangreiche Auswertung aller wichtigen Daten Ihrer Imkerei. Werten Sie die letzte Honigernte aus und vergleichen Sie die Standorte.</p>
+                    <p>Mit einem Blick auf die digitale Stockkarte sehen Sie, was und wie viel an welchem Stand gefüttert wurde.</p>
+                    <p>Ob Ihre Varroabhandlungen das gewünscht Ergebnis erzielt hat, können Sie ebenfalls - für den ganzen Bienenstand oder für jedes Volk getrennt - leicht überprüfen.</p>
+                    <p>Verfolgen Sie in der Imker App auch die Entwicklung Ihrer Völker im Jahresverlauf, jedes Kriterium der individuellen Durchschau kann detailliert über die Zeit beobachtet werden.</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="col-xs-12"><h2 class="leftheader">Kassenbuch</h2></div>
+                <div class="col-sm-push-6 col-sm-6 ">
+                    <img loading="lazy" style="float: right;" src="/img/functions/kassenbuch.png"
+                         class="img-responsive funcimage"
+                         title="Kassenbuch - BeeInTouch - Die Imkereiverwaltung und Stockkarte"
+                         alt="Kassenbuch">
+                </div>
+                <div class="col-sm-pull-6 col-sm-6 " style="padding:20px;">
+                    <p>Behalten Sie mit der Imereiverwaltung immer den Überblick über die Einnahmen und Ausgaben in Ihrer Imkerei.</p>
+                    <p>Hierbei hilft Ihnen der Jahres- und Monatsüberblick im Kassenbuch mit seiner übersichtlichen Darstellung einzelner Buchungen.</p>
+                    <p>Des Weiteren haben Sie stets Ihren aktuellen Kontostand im Blick.</p>
+                    <p>Durch die Verknüpfung von Kassenbuch und Lager in der Imkereiverwaltung BeeInTouch wird Ihnen zusätzlich dazu Arbeit erspart. So wird beispielsweise bei jeder Änderung im Lager automatisch ein Eintrag im Kassenbuch der App generiert.</p>
+                </div>
+
+
+                <div class="row  rightportfolio" style="margin-bottom: 30px;">
+                    <div class="col-xs-12"><h2
+                                class="rightheader">BeeInTouch - Willi für Android und iOS</h2>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                            <img loading="lazy" src="/img/bee_logo.webp" class="img-responsive funcimage"
+                                 title="BeeInTouch - Willi" alt="BeeInTouch - Willi">
+                            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-6'>
+                                <a href="https://apps.apple.com/de/app/beeintouch-willi-imker-app/id1326679945?itsct=apps_box_link&itscg=30200"
+                                   style="display: inline-block; height: 50px; margin: 12px;"> <img src="/img/white.svg"
+                                                                                                    alt="Download on the App Store"
+                                                                                                    style="height: 50px;"></a>
+                            </div>
+                            <div class='col-lg-4 col-md-4 col-sm-4 col-xs-6'>
+                                <a href='https://play.google.com/store/apps/details?id=de.beeintouch.appnative&utm_source=beeintouch_website&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+                                   target="_blank" rel="noopener noreferrer"><img height="60"
+                                                                                  alt='Jetzt bei Google Play'
+                                                                                  src='/img/google-play-badge.png'/></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 " style="padding:20px">
+                        <p>Die BeeInTouch Willi ist die ideale Ergänzung, wenn Sie Ihre Imkerei mit BeeInTouch - Die digitale Imkereiverwaltung und Stockkarte verwalten und damit die perfekte App zum führen der Stockkarte für die Arbeit direkt am Bienenstand.</p>
+                        <p>BeeInTouch – Willi ermöglicht es Ihnen alle Einträge in die Stockkarte zu Ihren Bienenvölkern auch an Standorten vorzunehmen, an denen es keine Internetverbindung gibt.</p>
+                        <p>Zu jedem Volk können Sie mit dieser Imkersoftware für die Imkereiverwaltung einfach alle Einträge in der Stockkarte vornehmen, sobald wieder eine Internetverbindung zur Verfügung steht, werden die neuen Einträge in der Stockkarte direkt an BeeInTouch – Die digitale Imkereiverwaltung und Stockkarte gesendet.</p>
+
+                    </div>
+                    <div class="row" style="margin-bottom: 30px;">
+                        <div class="col-xs-12"><h2
+                                    class="leftheader">BeeInTouch - Lager  für Android und iOS</h2>
+                        </div>
+                        <div class="col-sm-push-6 col-sm-6 ">
+                            <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                                <img src="/img/bee_logo-kasse.webp" class="img-responsive funcimage"
+                                     title="BeeInTouch - Lager" alt="BeeInTouch - Lager">
+                                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-6'>
+                                    <a href="https://apps.apple.com/de/app/beeintouch-willi-imker-app/id1326679945?itsct=apps_box_link&itscg=30200"
+                                       style="display: inline-block; height: 50px; margin: 12px;"> <img
+                                                src="/img/white.svg" alt="Download on the App Store"
+                                                style="height: 50px;"></a>
+                                </div>
+                                <div class='col-lg-4 col-md-4 col-sm-4 col-xs-6'>
+                                    <a href='https://play.google.com/store/apps/details?id=de.beeintouch.appnative&utm_source=beeintouch_website&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+                                       target="_blank" rel="noopener noreferrer"><img height="60"
+                                                                                      alt='Jetzt bei Google Play'
+                                                                                      src='/img/google-play-badge.png'/></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-pull-6 col-sm-6 " style="padding:20px;">
+                            <p>BeeInTouch - Lager ist der ideale Imker-App für stressige Markttage.</p>
+                            <p>Es werden in der BeeInTouch - Lager alle Bestände aus dem Lager angezeigt und diese können direkt verkaufen. Die Bestände werden automatisch im BeeInTouch - Lager um die verkaufte Menge reduziert, natürlich wird auch automatisch ein Kassenbucheintrag erstellt.</p>
+                            <p>BeeInTouch - Lager errechnet Ihnen den Verkaufspreis für alle Waren, die der Kunde bei Ihnen gekauft hat und gibt Ihn auch direkt an, wie viel Wechselgeld der Kunde wiederbekommt. </p>
+                            <p>Alle Verkäufe werden in BeeInTouch - Die Imkereiverwaltung und Stockkarte gespeichert.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<section id="devices" class="hidden-xs">
+</section>
+<section id="summary" class="hidden-xs">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Überall verwendbar</h3>
+                <p>BeeInTouch ist eine moderne Imkereiverwaltung und Stockkarte, die direkt im Browser läuft oder mit BeeInTouch - Willi und BeeInTouch - Kasse als Imker App auf dem Handy oder Tablet, auch wenn am Stand mal keine Internetverbindung besteht.</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Alles im Blick</h3>
+                <p>Mit durchdachten Auswertungen haben Sie mit BeeInTouch - Die Imkereiverwaltung und Stockkarte für Imker in Ihrer Imkerei immer alles sofort im Blick und können direkt reagieren.</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Einfache Benutzung</h3>
+                <p>Die einfache Bedienbarkeit der digitalen Imkereiverwaltung und der Stockkarte steht bei BeeInTouch im Vordergrund. Die Stockkarten App BeeInTouch Willi ist für die schnelle Dokumentation in die Stockkarte am Stand optimiert.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="prices">
+    <div class="container">
+        <div class="row" style="margin-bottom: 50px;">
+            <div class="col-lg-12 text-center">
+                <span style="font-size:3em;font-weight: 700;">Preise der BeeInTouch Imkereiverwaltung</span>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_empty.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Hobby kostenlos" alt="Preis Hobby">
+                    <h3 class="priceheader">Hobby</h3>
+                    <p>Nutzen Sie BeeInTouch mit bis zu 2 Ständen und bis zu 5 Völkern mit der Stockkarten Freeware.                        <br> <a href="#prices" id="hobby-button">Details</a></p>
+                    <p>vollständig </p>
+                    <div id="hobby" style="display:none;">
+                        <ul class="feature_list"><li>5 Völker</li><li>2 Stände</li><li>10 Zuchtreihen</li><li>10 Bestände</li><li>10 Artikel</li><li>500 Kassenbuch</li><li>0 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline"><span class="price">kostenlos</span></p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Hobbyimker - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren </a>
+                </div>
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_egg.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Hobby plus" alt="Preis Hobby plus">
+                    <h3 class="priceheader">Hobby plus</h3>
+                    <p>Nutzen Sie werbefrei den vollen Umfang mit Lagerhaltung bis zu 30 Völkern an 6 Standorten.                        <a href="#prices" id="hobbyplus-button">Details</a></p>
+                    <p>Werbefrei! </p>
+                    <div id="hobbyplus" style="display:none;">
+                        <ul class="feature_list"><li>30 Völker</li><li>6 Stände</li><li>30 Zuchtreihen</li><li>60 Bestände</li><li>30 Artikel</li><li>2500 Kassenbuch</li><li>3 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">2,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Hobbyimker plus - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+                </div>
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_faggot_round.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Nebenerwerb" alt="Preis Nebenerwerb">
+                    <h3 class="priceheader">Nebenerwerb</h3>
+                    <p>Sie imkern im Nebenerwerb, werbefrei mit 14 Ständen und 70 Völkern.<br>
+                        <a href="#prices" id="neben-button">Details</a></p>
+                    <p>Werbefrei! </p>
+                    <div id="neben" style="display:none;">
+                        <ul class="feature_list"><li>70 Völker</li><li>14 Stände</li><li>70 Zuchtreihen</li><li>140 Bestände</li><li>70 Artikel</li><li>12500 Kassenbuch</li><li>5 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">6,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Nebenerwerbsimker - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+                </div>
+                <div class="col-md-3 col-sm-6    pricecol">
+                    <img loading="lazy" src="/img/breed/breed_faggot_stretched.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Berufsimker" alt="Preis Berufsimker">
+                    <h3 class="priceheader">Berufsimker</h3>
+                    <p>Als Vollprofi bewirtschaften Sie mit Willi bis zu 180 Völkern und an vielen Ständen.                        <br> <a href="#prices" id="beruf-button">Details</a></p>
+                    <p>Werbefrei! </p>
+                    <div id="beruf" style="display:none;">
+                        <ul class="feature_list"><li>180 Völker</li><li>35 Stände</li><li>2000 Zuchtreihen</li><li>2000 Bestände</li><li>2000 Artikel</li><li>62500 Kassenbuch</li><li>8 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">17,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Berufsimker - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_cocoon.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Profiimker" alt="Preis Profiimker">
+                    <h3 class="priceheader">Profiimker</h3>
+                    <p>Mit bis zu 250 Völkern behalten Sie mit Willi den Überblick am Stand und in der Dokumentation.                        <a href="#prices" id="profi-button">Details</a></p>
+                    <p>Werbefrei! </p>
+                    <div id="profi" style="display:none;">
+                        <ul class="feature_list"><li>250 Völker</li><li>55 Stände</li><li>3000 Zuchtreihen</li><li>3000 Bestände</li><li>3000 Artikel</li><li>62500 Kassenbuch</li><li>12 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">25,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Hobbyimker plus - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+
+                </div>
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_eclosion.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Großimker" alt="Preis Großimker">
+                    <h3 class="priceheader">Großimker</h3>
+                    <p>Als Großimker haben Sie bei bis zu 320 Völkern immer den vollständigen Überblick.                        <br>
+                        <a href="#prices" id="gross-button">Details</a></p>
+
+                    <p>Werbefrei! </p>
+                    <div id="gross" style="display:none;">
+                        <ul class="feature_list"><li>320 Völker</li><li>100 Stände</li><li>4000 Zuchtreihen</li><li>4000 Bestände</li><li>4000 Artikel</li><li>62500 Kassenbuch</li><li>12 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">34,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Nebenerwerbsimker - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+                </div>
+                <div class="col-md-3 col-sm-6 pricecol">
+                    <img loading="lazy" src="/img/breed/breed_mommy.svg" class="priceimage img-responsive"
+                         title="BeeInTouch - Preis Riesenimker" alt="Preis Riesenimker">
+                    <h3 class="priceheader">Riesenimker</h3>
+                    <p>Bewirtschaften Sie bis zu 420 Völker und behalten Sie immer den Überblick mit Willi.                        <br>
+                        <a href="#prices" id="riesen-button">Details</a></p>
+                    <p>Werbefrei! </p>
+                    <div id="riesen" style="display:none;">
+                        <ul class="feature_list"><li>420 Völker</li><li>120 Stände</li><li>5000 Zuchtreihen</li><li>5000 Bestände</li><li>5000 Artikel</li><li>62500 Kassenbuch</li><li>15 Teammitglieder</li><li>unbegrenzt Todos</li></ul>                    </div>
+                    <p class="priceline">ab <span
+                                class="price">47,99€ </span>
+                        / Monat</p>
+                    <a href="/user/register" class="btn btn-success
+                       priceregbutton" title = "Registrieren als Nebenerwerbsimker - BeeInTouch - Die
+                    Imkereiverwaltung">Registrieren</a>
+                </div>
+                <div class="col-md-3 col-sm-6    pricecol">
+                    <br><br>
+                    <img loading="lazy" src="/img/crown_yellow.svg" style="width: 95px;"
+                         class="priceimage img-responsive" title="BeeInTouch - Preis Berufsimker"
+                         alt="Preis Berufsimker">
+                    <br>
+                    <h3 class="priceheader">Mehr Bienen?</h3>
+                    <p>Gerne erstellen wir für Sie ein individuelles, auf Sie zugeschnittenes Angebot für <strong>BeeInTouch - Die Imker App und Stockkarten App.</strong><br><br>                    <p class="priceline"><span class="price"></span></p>
+                    <br><br><br>
+                    <span class="email"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="testemonials">
+    <span style="font-size:3em;text-transform: uppercase;font-weight: 700;">Kundenstimmen</span>
+    <div id="w0" class="carousel" data-interval="20000">
+<ol class="carousel-indicators"><li class="active" data-target="#w0" data-slide-to="0"></li>
+<li data-target="#w0" data-slide-to="1"></li>
+<li data-target="#w0" data-slide-to="2"></li>
+<li data-target="#w0" data-slide-to="3"></li>
+<li data-target="#w0" data-slide-to="4"></li>
+<li data-target="#w0" data-slide-to="5"></li></ol>
+<div class="carousel-inner"><div class="item active"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Wir haben lange gesucht und getestet und haben uns schließlich klar für die Imker-App BeeInTouch entschieden. Der enorme Funktionsumfang, die leichte Bedienbarkeit und die Offline-Fähigkeit waren wesentliche Gründe dafür. Dass viele Prozesse ineinander greifen erspart beim täglichen Workflow eines Berufsimkers sehr viel Zeit und ermöglicht u. a. die Rückverfolgbarkeit des abgefüllten Honigs bis zum einzelnen Bienenstock. Gerade für einen Bio-Betrieb ist das sehr wertvoll. Auch in der Zuchtarbeit und Leistungsprüfung ist die Software zum untentbehrlichen Werkzeug geworden. Volle Punktzahl für BeeInTouch!</div><p><strong>Imkermeister Ing. Franz Obendorfer – Berufsimker - <a href="https://www.bluetengold.at" target="_blank">www.bluetengold.at</a> </strong></p></div>
+</div>
+<div class="item"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Habe die Tage mal die Frühjahrskontrolle bei meinen Völkern gemacht. Und bin immer wieder begeistert, wie einfach die Notizen mit der Eingabe in BeeInTouch sind. Vielen DANK einfach mal dafür!</div><p><strong>Markus Bollen - Hobbyimker</strong></p></div>
+</div>
+<div class="item"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Eine bessere Software gibt es nicht, es wird immer wieder erweitert und verbessert. Dies kann ich bestätigen da ich diese seit Jahren nutze als Erwerbs Imker. Auch von Amtlicher Seite aus wird die Software befürwortet da es eine Dokumentation in allen erforderlichen enthält.</div><p><strong>Horst Weber - Nebenerwerbsimker </strong></p></div>
+</div>
+<div class="item"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Wir sind von der Beeintouch Imker App begeistert! Diese Software für Imker ist wirklich übersichtlich, praktisch und zudem noch erfrischend humorvoll gestaltet. Die Imkereiverwaltung und Stockkarte wird dadurch sehr viel von uns genutzt. Vor allem die Lager- und Kassenbuchfunktionen von Beeintouch - Die Imkereiverwaltung und Stockkarte sind super! Ich glaube, wir haben zum ersten Mal einen realistischen Überblick über unsere Finanzen.</div><p><strong>Katrin und Toni – Nebenerwerbsimker - <a href="http://www.landimkerei-bayern.de" target="_blank">www.landimkerei-bayern.de</a> </strong></p></div>
+</div>
+<div class="item"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Es macht mir Spaß, mit Beeintouch zu arbeiten. Die Wettervorhersage von Beeintouch - Die Imkereiverwaltung und Stockkarte für uns Imker ist prima umgesetzt und hilft neben den Kalenderinformationen, meine imkerlichen Arbeiten zu planen. Eine sehr hilfreiche Funktion ist zudem die Lagerverwaltung und das Drucken von Bestandslisten. So habe ich meine Ausgaben und Einnahmen im Blick. Sollte ich mit meiner Imkerei wachsen, wächst mein „digitales Stockbuch“ mit. Dies alles ohne Datenverlust und mit einem einfachen Wechsel in ein höheres Servicepaket. So viel Flexibilität lob ich mir!</div><p><strong>René Huth - Hobbyimker - Honigbox</strong></p></div>
+</div>
+<div class="item"><div class="testemonial-container"><div style="font-size:4em;font-weight: 700;"><i class="fa fa-quote-left" aria-hidden="true"></i></div><div class="testemonail">Ich bin wirklich sehr zufrieden. Beeintouch - Die Imkereiverwaltung und Stockkarte ist für mich eine echte Hilfe, auch oder gerade um den Überblick bezüglich Lager- und Kassenbuch zu behalten! Ebenfalls großes Dank, dass mir an einem Feiertag (Pfingstmontag) direkt und unverzüglich geholfen wurde - das macht für mich guten Service aus!</div><p><strong>Sven Wankum - Nebenerwerbsimker</strong></p></div>
+</div></div>
+<a class="left carousel-control" href="#w0" data-slide="prev">&lsaquo;</a>
+<a class="right carousel-control" href="#w0" data-slide="next">&rsaquo;</a>
+</div>
+</section>
+
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="footer-above">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col col-md-4">
+                    <p>app reederei</p>
+                    <p>Elmshorn</p>
+                        <div class = 'col-lg-offset-3 col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+                            <a href="https://apps.apple.com/de/app/beeintouch-willi-imker-app/id1326679945?itsct=apps_box_link&itscg=30200" style="display: inline-block; height: 50px; margin: 12px;">    <img src="/img/white.svg" alt="Download on the App Store" style="height: 50px;"></a>
+                           <a href='https://play.google.com/store/apps/details?id=de.beeintouch.appnative&utm_source=beeintouch_website&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target="_blank"  rel="noopener noreferrer" ><img height="60" alt='Jetzt bei Google Play' src='/img/google-play-badge.png'/></a>
+                        </div>
+                                    </div>
+                <div class="footer-col col-md-4">
+                    <p>Soziale Netzwerke</p>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="https://www.facebook.com/beeintouch" target="_blank" rel="noopener noreferrer" title = "BeeInTouch auf facebook" class="btn-social btn-outline"><i aria-hidden="true" class="fa fa-fw fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/bee_in_touch" target="_blank" rel="noopener noreferrer" title = "BeeInTouch auf Twitter" class="btn-social btn-outline"><i aria-hidden="true" class="fa fa-fw fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/c/beeintouch" target="_blank" rel="noopener noreferrer" title = "BeeInTouch auf YouTube"  class="btn-social btn-outline"><i aria-hidden="true" class="fa fa-fw fa-youtube"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/beeintouch/" target="_blank" rel="noopener noreferrer" title = "BeeInTouch auf Instagram"  class="btn-social btn-outline"><i aria-hidden="true" class="fa fa-fw fa-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:UC_UI.showSecondLayer();">Cookie-Einstellungen</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-col col-md-4">
+                    <p>Hinweise</p>
+                    <p>
+                        <a class="btn link" href="/site/impressum" title="BeeInTouch - Impressum" target="_blank">Impressum</a>                        <a class="btn link" href="/site/disclamer" title="BeeInTouch - Disclamer" target="_blank">Disclamer</a><br>
+                        <a class="btn link" href="/site/datenschutzerklaerung" title="BeeInTouch - Datenschutzerklärung" target="_blank">Datenschutzerklärung</a>                        <a class="btn link" href="/site/agb" title="BeeInTouch - Allgemeine Geschäftsbedingungen" target="_blank">AGB</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-below">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    Copyright &copy; app reederei - Jan Bischoff 2014 - 2025                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="/collector/translations/i18n"></script>
+<script src="/Übersicht_files/jquery.js.Download"></script>
+<script src="/Übersicht_files/yii.js.Download"></script>
+<script src="/assets/8e866c46/yii.js?v=1738599475"></script>
+<script src="/Übersicht_files/bootstrap.js.Download"></script>
+<script src="/Übersicht_files/videolayer_bootstrap.min.js.Download"></script>
+<script src="/Übersicht_files/notie.min.js.Download"></script>
+<script>;(function () {
+  if (!('yii' in window)) {
+    window.yii = {};
+  }
+  if (!('t' in window.yii)) {
+    if (!document.documentElement.lang) {
+      throw new Error(
+        'You must specify the "lang" attribute for the "html" element'
+      );
+    }
+    yii.t = function (category, message, params, language) {
+      language = language || document.documentElement.lang;
+      var translatedMessage;
+      if (
+        language === "en-us" ||
+        !YII_I18N_JS ||
+        !YII_I18N_JS[language] ||
+        !YII_I18N_JS[language][category] ||
+        !YII_I18N_JS[language][category][message]
+      ) {
+        translatedMessage = message;
+      } else {
+        translatedMessage = YII_I18N_JS[language][category][message];
+      }
+      if (params) {
+        Object.keys(params).map(function (key) {
+          var escapedParam =
+            // https://stackoverflow.com/a/6969486/4223982
+            key.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\^$\|]/g, '\$&');
+          var regExp = new RegExp('\\{' + escapedParam + '\\}', 'g');
+          translatedMessage = translatedMessage.replace(regExp, params[key]);
+        });
+      }
+      return translatedMessage;
+    };
+  }
+})();</script>
+<script>jQuery(function ($) {
+jQuery('#login-form').yiiActiveForm([{"id":"login-form-login","name":"login","container":".field-login-form-login","input":"#login-form-login","enableAjaxValidation":true,"validateOnChange":false,"validateOnBlur":false},{"id":"login-form-password","name":"password","container":".field-login-form-password","input":"#login-form-password","enableAjaxValidation":true,"validateOnChange":false,"validateOnBlur":false}], []);
+
+
+$(document).ready(function(){
+    /* Hier der jQuery-Code */
+    $("#hobby-button").click(function(){
+        $("#hobby").toggle("slow");
+        $("#hobbyplus").hide("slow");
+        $("#neben").hide("slow");
+        $("#beruf").hide("slow");
+        $("#profi").hide("slow");
+        $("#gross").hide("slow");
+        $("#riesen").hide("slow");
+    }
+    )
+    $("#hobbyplus-button").click(function(){
+        $("#hobbyplus").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#neben").hide("slow");
+        $("#beruf").hide("slow");
+        $("#profi").hide("slow");
+        $("#gross").hide("slow");
+        $("#riesen").hide("slow");
+}
+    )
+    $("#neben-button").click(function(){
+        $("#neben").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#hobbyplus").hide("slow");
+        $("#beruf").hide("slow");
+        $("#profi").hide("slow");
+        $("#gross").hide("slow");
+        $("#riesen").hide("slow");
+}
+    )
+    $("#beruf-button").click(function(){
+        $("#beruf").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#hobbyplus").hide("slow");
+        $("#neben").hide("slow");
+        $("#profi").hide("slow");
+        $("#gross").hide("slow");
+        $("#riesen").hide("slow");
+}
+    )
+        $("#profi-button").click(function(){
+        $("#profi").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#hobbyplus").hide("slow");
+        $("#neben").hide("slow");
+        $("#beruf").hide("slow");
+        $("#gross").hide("slow");
+        $("#riesen").hide("slow");
+}
+    )
+        $("#riesen-button").click(function(){
+        $("#riesen").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#hobbyplus").hide("slow");
+        $("#neben").hide("slow");
+        $("#profi").hide("slow");
+        $("#beruf").hide("slow");
+        $("#gross").hide("slow");
+}
+    )
+        $("#gross-button").click(function(){
+        $("#gross").toggle("slow");
+        $("#hobby").hide("slow");
+        $("#hobbyplus").hide("slow");
+        $("#neben").hide("slow");
+        $("#profi").hide("slow");
+        $("#beruf").hide("slow");
+        $("#riesen").hide("slow");
+}
+    )
+        
+});
+
+
+jQuery('#w0').carousel();
+
+        $(window).on("scroll", function() {
+            var scrollTop = $(window).scrollTop();
+            $("div#flashmessagecontainer").css("top",""+Math.max(60,scrollTop)+"px");
+        });
+            
+});</script>
+</html>
