@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEESCHRAM – Imkerverwaltung</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        /* Stile für die Karte */
+        #map {
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Stil für den Zurück-Button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 999;
+        }
+
+        .back-button:hover {
+            background-color: #e67e22;
+        }
+
+        /* Stil für das Eingabefeld */
+        .popup-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        /* Stil für das Haupt-Pop-up (Hinzufügen) */
+        .popup-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            font-family: 'Arial', sans-serif;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Stil für die Buttons im Pop-up */
+        .popup-content button {
+            padding: 15px 30px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .popup-content button:hover {
+            background-color: #e67e22;
+        }
+
+        /* Stil für das Bestätigungs-Pop-up (Löschen) */
+        .popup-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Stil für die benutzerdefinierten Pins */
+        .custom-pin {
+            background-color: #e67e22;
+            color: white;
+            font-size: 22px;
+            padding: 10px;
+            border-radius: 50%;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Animation für das Pop-up */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Zurück-Button -->
+    <button class="back-button" onclick="window.location.href='index.html'">Zurück</button>
+
+    <!-- Karte einfügen -->
+    <div id="map"></div>
+
+    <script>
+        // Erstelle die Karte und setze die Startposition (Breiten- und Längengrad, Zoom-Level)
+        var map = L.map('map').setView([46.6000, 10.4167], 13);
+
+        // OpenStreetMap Tile Layer hinzufügen (dies stellt den Kartenhintergrund dar)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Marker-Daten aus LocalStorage laden
+        var standorte = JSON.parse(localStorage.getItem('standorte')) || [];
+
+        // Funktion zum Generieren einer eindeutigen ID
+        function generateID() {
+            return 'stand-' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Marker-Daten auf der Karte anzeigen
+        standorte.forEach(function(standort) {
+            var marker = L.marker([standort.lat, standort.lng], {
+                icon: L.divIcon({
+                    className: 'custom-pin',
+                    html: '📍',
+                    iconSize: [40, 40]
+                })
+            }).addTo(map);
+
+            marker.on('click', function() {
+                window.location.href = 'standort.html?standort=' + encodeURIComponent(standort.name) + '&id=' + standort.id;
+            });
+
+            marker.on('contextmenu', function() {
+                var deletePopup = L.popup()
+                    .setLatLng([standort.lat, standort.lng])
+                    .setContent('<div class="popup-delete"><h3>Stand löschen?</h3><p>Möchtest du diesen Stand wirklich löschen?</p><button onclick="deleteStand(\'' + standort.id + '\')">Ja, löschen</button></div>')
+                    .openOn(map);
+            });
+        });
+
+        // Funktion für das Hinzufügen eines neuen Standorts
+        map.on('click', function(e) {
+            var latlng = e.latlng;
+
+            var popup = L.popup()
+                .setLatLng(latlng)
+                .setContent('<div class="popup-content"><h2>Stand hinzufügen</h2><p>Gib den Namen des Standes ein:</p><input type="text" id="standName" class="popup-input" placeholder="Standname eingeben"><br><button onclick="addStand(' + latlng.lat + ',' + latlng.lng + ')">Ja, hinzufügen</button></div>')
+                .openOn(map);
+        });
+
+        function addStand(lat, lng) {
+            var standName = document.getElementById('standName').value.trim();
+
+            if (standName === '') {
+                alert('Bitte gib einen Namen für den Stand ein!');
+                return;
+            }
+
+            var standID = generateID();
+            var neuerStand = { id: standID, lat: lat, lng: lng, name: standName };
+            standorte.push(neuerStand);
+
+            // Standort in LocalStorage speichern
+            localStorage.setItem('standorte', JSON.stringify(standorte));
+
+            window.location.href = 'standort.html?standort=' + encodeURIComponent(standName) + '&id=' + standID;
+        }
+
+        function deleteStand(id) {
+            if (confirm('Bist du sicher, dass du diesen Stand löschen möchtest?')) {
+                standorte = standorte.filter(function(standort) {
+                    return standort.id !== id;
+                });
+                localStorage.setItem('standorte', JSON.stringify(standorte));
+                alert('Stand wurde gelöscht.');
+                window.location.reload();
+            }
+        }
+    </script>
+
+</body>
+</html>
