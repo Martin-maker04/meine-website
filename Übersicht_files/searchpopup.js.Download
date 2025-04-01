@@ -1,0 +1,145 @@
+/* global standlitypingTimer, doSearch */
+
+let searchDialogTimer;
+
+let currentSelected = -1;
+
+/**
+ * Attaches the dialog to the body
+ * @returns {undefined}
+ */
+function attachSearchDialog() {
+    if ($('#searchdialog_container') !== null) {
+        const html =
+            '<div id="searchdialog_container">' +
+            '<div class="col-xs-12">' +
+            '<button onclick="closeSearchDialog();" class="btn btn-success" style="float:right;" id="searchdialog_button" type="button"><i class="fa fa-times"></i></button>' +
+            '<span style="display: block;overflow: hidden;">' +
+            '<input placeholder="Suche" id="searchdialog_input" class="form-control" type="text" name="search" onkeyup="coolKeyUpFunctionSearchDialog(event)" onkeydown="clearTimeout(searchDialogTimer);">' +
+            '</span>' +
+            '<div>' +
+            '<div class="row" id="seachdialog_resultcontainer">' +
+            '<div>' +
+            '</div>';
+        $('body').append(html);
+    }
+}
+
+function coolKeyUpFunctionSearchDialog(e) {
+
+    function selectNext() {
+        const current = $('.searchresultselected');
+        if (current.length===0) {
+            currentSelected = 1;
+            $('.searchresult:nth-child('+currentSelected+')').toggleClass('searchresultselected');
+        } else {
+            $('.searchresult:nth-child('+currentSelected+')').toggleClass('searchresultselected');
+            currentSelected = Math.min(currentSelected+1, $('.searchresult').length);
+            $('.searchresult:nth-child('+currentSelected+')').toggleClass('searchresultselected');
+        }
+    }
+
+    function selectPrevious() {
+        if (currentSelected > 1) {
+            $('.searchresult:nth-child('+currentSelected+')').toggleClass('searchresultselected');
+            currentSelected--;
+            $('.searchresult:nth-child('+currentSelected+')').toggleClass('searchresultselected');
+
+        }
+    }
+
+    clearTimeout(searchDialogTimer);
+    if (e.keyCode === 13) {  // enter
+        var current = $('.searchresultselected');
+        if (current.length!==0) {
+            window.location.href = current.attr('data-location');
+        }
+    }
+    else if (e.keyCode === 38) {  // up
+        selectPrevious();
+    }
+    else if (e.keyCode === 40) {  // down
+        selectNext();
+    }
+    else if (e.keyCode === 27) { // esc
+        $('#searchdialog_input').val('');
+        clearResults();
+        closeSearchDialog();
+    } else {
+        window.standlitypingTimer = setTimeout(searchDialogTimer, 250);
+    }
+}
+
+function showResults(msg) {
+    function createLink(link, id) {
+
+        let res = '/' + link;
+        res += '?id=' + id;
+        return res;
+    }
+
+    function createElement(elem) {
+        return '<div class="col-xs-12 searchresult" data-location="' + createLink(elem.link,elem.id) + '">'+
+            '<div class="col-xs-2">' + elem.table + '</div>' +
+            '<div class="col-xs-5">' + elem.display + '</div>' +
+            '<div class="col-xs-5">' + elem.value + '</div>' +
+            '</div>';
+    }
+
+
+    clearResults();
+
+    var res ='';
+    for (let i = 0; i < msg.length; i++) {
+        const next = msg[i];
+        res+=createElement(next);
+    }
+    $('#seachdialog_resultcontainer').html(res);
+    $('.searchresult').on('click', function(el) {
+        const loc = $(el.currentTarget).attr('data-location');
+        if (loc) {
+            window.location.href = loc;
+        }
+    });
+}
+
+function clearResults() {
+    currentSelected = -1;
+    $('#seachdialog_resultcontainer').html('');
+}
+
+function searchDialogTimer() {
+    const text = $('#searchdialog_input').val();
+    if (text.length>0) {
+        doSearch(text, showResults);
+    } else {
+        clearResults();
+    }
+}
+
+/**
+ * Closes the popup
+ */
+function closeSearchDialog() {
+    $('#searchdialog_input').val('');
+    $('#searchdialog_container').css('display','none');
+}
+
+
+function showSearchDialog() {
+    attachSearchDialog();
+    $('#searchdialog_container').css('display','block');
+    $('#searchdialog_input').focus();
+
+}
+
+$(window).ready(function() {
+    $('html').on('keyup', function(e) {
+        if (e.keyCode === 83) {
+            const focused = document.activeElement;
+            if (focused.localName === 'body') {
+                showSearchDialog();
+            }
+        }
+    });
+});

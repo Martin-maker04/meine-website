@@ -1,0 +1,18 @@
+(function( comp_todowidget, $ ) {
+    
+    function init() {
+        // Click header, image
+        $("div#todowidget > .header").on("click", function() {
+            location.href="/todo/index";
+        }); 
+        
+        $(".nextappcontainer > span").on("click", function() {
+            const id = $(this).attr("data-id");
+            const link = $(this).attr("data-link");
+            location.href=link+"?id="+id;
+        });
+    }
+    
+    init();
+    
+}( window.comp_todowidget = window.comp_todowidget || {}, jQuery ));
