@@ -148,25 +148,31 @@
         </ul>
     </div>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const standId = urlParams.get('id');
+
         let selectedVolkId = null;
 
         function loadHives() {
             let hiveContainer = document.getElementById('hiveContainer');
-            hiveContainer.innerHTML = '<div class="hive add-hive" onclick="window.location.href=\'stoeke-create.html\'">+ Volk hinzufügen</div>'; // Clear the container
+            hiveContainer.innerHTML = `<div class="hive add-hive" onclick="window.location.href='stoeke-create.html?standId=${standId}'">+ Volk hinzufügen</div>`; // Clear the container
 
             // Völker aus localStorage für den aktuellen Stand abrufen
             let völker = JSON.parse(localStorage.getItem('völker')) || [];
-
+            
+            // Filter Völker nach der aktuellen Stand-ID
             völker.forEach(volk => {
-                let statusCircle = `<span class="status-circle" style="background: ${volk.status};"></span>`;
+                if (volk.standId === standId) {
+                    let statusCircle = `<span class="status-circle" style="background: ${volk.status};"></span>`;
 
-                let hiveDiv = `<div class="hive" onclick="window.location.href='stoeke-update.html?id=${volk.id}'" oncontextmenu="showContextMenu(event, '${volk.id}')">
-                    <h3>${volk.stocknummer}</h3>
-                    <p>Status: ${statusCircle}</p>
-                    <p>Volkart: ${volk.volkart}</p>
-                    <p>Letzte Aktion: ${volk.letzteAktion}</p>
-                </div>`;
-                hiveContainer.innerHTML += hiveDiv;
+                    let hiveDiv = `<div class="hive" onclick="window.location.href='stoeke-update.html?id=${volk.id}&standId=${standId}'" oncontextmenu="showContextMenu(event, '${volk.id}')">
+                        <h3>${volk.stocknummer}</h3>
+                        <p>Status: ${statusCircle}</p>
+                        <p>Volkart: ${volk.volkart}</p>
+                        <p>Letzte Aktion: ${volk.letzteAktion}</p>
+                    </div>`;
+                    hiveContainer.innerHTML += hiveDiv;
+                }
             });
         }
 
