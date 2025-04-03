@@ -202,6 +202,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const volkId = urlParams.get('id');
+        const standId = urlParams.get('standId');
 
         let völker = JSON.parse(localStorage.getItem('völker')) || [];
         let volk = völker.find(v => v.id === volkId);
@@ -214,26 +215,4 @@
 
         if (volk) {
             document.getElementById('volkName').innerText = volk.stocknummer;
-            document.getElementById('stocknummer').value = volk.stocknummer;
-            document.getElementById('volkart').value = volk.volkart;
-            document.getElementById('jahresfarbe').value = volk.jahresfarbe;
-            document.getElementById('volk_erstellt').value = volk.volkErstellt;
-            document.getElementById('koenigin_zugesetzt').value = volk.koeniginZugesetzt;
-            document.getElementById('koenigin_zeichen').value = volk.koeniginZeichen;
-        }
-
-        function aktualisierenVolk() {
-            volk.stocknummer = document.getElementById('stocknummer').value;
-            volk.volkart = document.getElementById('volkart').value;
-            volk.jahresfarbe = document.getElementById('jahresfarbe').value;
-            volk.volkErstellt = document.getElementById('volk_erstellt').value;
-            volk.koeniginZugesetzt = document.getElementById('koenigin_zugesetzt').value;
-            volk.koeniginZeichen = document.getElementById('koenigin_zeichen').value;
-            volk.status = selectedColor;
-
-            localStorage.setItem('völker', JSON.stringify(völker));
-            window.location.href = 'standort.html';
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('stocknummer
