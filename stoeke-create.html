@@ -219,6 +219,9 @@
                 return;
             }
 
+            const urlParams = new URLSearchParams(window.location.search);
+            const standId = urlParams.get('standId');
+
             const neuesVolk = {
                 id: 'volk-' + Math.random().toString(36).substr(2, 9),
                 stocknummer,
@@ -228,14 +231,15 @@
                 koeniginZugesetzt,
                 koeniginZeichen,
                 status: selectedColor,
-                letzteAktion: koeniginZugesetzt
+                letzteAktion: koeniginZugesetzt,
+                standId
             };
 
             let völker = JSON.parse(localStorage.getItem('völker')) || [];
             völker.push(neuesVolk);
             localStorage.setItem('völker', JSON.stringify(völker));
 
-            window.location.href = 'standort.html';
+            window.location.href = 'standort.html?standId=' + standId;
         }
 
         // Set the current date as the default value for 'Volk erstellt'
