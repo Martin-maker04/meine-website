@@ -154,7 +154,7 @@
             marker.on('contextmenu', function() {
                 var deletePopup = L.popup()
                     .setLatLng([standort.lat, standort.lng])
-                    .setContent('<div class="popup-delete"><h3>Stand löschen?</h3><p>Möchtest du diesen Stand wirklich löschen?</p><button onclick="deleteStand(\'' + standort.id + '\')">Ja, löschen</button></div>')
+                    .setContent('<div class="popup-delete"><h3>Stand löschen?</h3><p>Möchtest du diesen Stand wirklich löschen?</p><button onclick="deleteStand(\'' + standort.id + '\')">Ja, löschen</button><button onclick="map.closePopup()">Abbrechen</button></div>')
                     .openOn(map);
             });
         });
@@ -165,7 +165,7 @@
 
             var popup = L.popup()
                 .setLatLng(latlng)
-                .setContent('<div class="popup-content"><h2>Stand hinzufügen</h2><p>Gib den Namen des Standes ein:</p><input type="text" id="standName" class="popup-input" placeholder="Standname eingeben"><br><button onclick="addStand(' + latlng.lat + ',' + latlng.lng + ')">Ja, hinzufügen</button></div>')
+                .setContent('<div class="popup-content"><h2>Stand hinzufügen</h2><p>Gib den Namen des Standes ein:</p><input type="text" id="standName" class="popup-input" placeholder="Standname eingeben"><button onclick="addStand(' + latlng.lat + ', ' + latlng.lng + ')">Hinzufügen</button></div>')
                 .openOn(map);
         });
 
