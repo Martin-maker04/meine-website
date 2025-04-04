@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeeSchram</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #2d3b45;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .icons img {
+            width: 20px;
+            margin-left: 10px;
+        }
+        main {
+            padding: 20px;
+        }
+        .weather, .map, .colonies {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hives {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .hive {
+            background: #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1 1 calc(25% - 20px);
+            text-align: center;
+            min-width: 220px;
+            max-width: 250px;
+            height: 150px;
+            cursor: pointer;
+            position: relative;
+        }
+        .add-hive {
+            background: #bbb;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        .status-circle {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .context-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+        .context-menu ul {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+        }
+        .context-menu ul li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .context-menu ul li:hover {
+            background-color: #e67e22;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BeeSchram</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Stände</a></li>
+                <li><a href="#">Lager</a></li>
+                <li><a href="#">Zucht</a></li>
+                <li><a href="#">Büro</a></li>
+            </ul>
+        </nav>
+        <div class="icons">
+            <img src="flag_germany.png" alt="Deutsch">
+            <img src="user_icon.png" alt="Profil">
+            <img src="search_icon.png" alt="Suche">
+            <img src="faq_icon.png" alt="FAQ">
+        </div>
+    </header>
+    <main>
+        <section class="weather">
+            <h2>Zuhause</h2>
+        </section>
+        <section class="map">
+            <h2>Adresse des Bienenstands</h2>
+            <img src="map_placeholder.png" alt="Karte" style="width: 100%; border-radius: 8px;">
+        </section>
+        <section class="colonies">
+            <h2>Völker</h2>
+            <div class="hives" id="hiveContainer">
+                <div class="hive add-hive" onclick="window.location.href='stoeke-create.html'">+ Volk hinzufügen</div>
+            </div>
+        </section>
+    </main>
+    <div class="context-menu" id="contextMenu">
+        <ul>
+            <li onclick="deleteVolk()">Löschen</li>
+        </ul>
+    </div>
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://sfvkzuiljvyuehnazkfc.supabase.co'; // Replace with your Supabase URL
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdmt6dWlsanZ5dWVobmF6a2ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3OTY3MjQsImV4cCI6MjA1OTM3MjcyNH0.K2DM4Uy0USSAOef3KBV74HVCLvQr-ml7nvLYj2hblRY'; // Replace with your Supabase Anon Key
+        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const standId = urlParams.get('id');
+
+        let selectedVolkId = null;
+
+        async function loadHives() {
+            let hiveContainer = document.getElementById('hiveContainer');
+            hiveContainer.innerHTML = `<div class="hive add-hive" onclick="window.location.href='stoeke-create.html?standId=${standId}'">+ Volk hinzufügen</div>`; // Clear the container
+
+            // Fetch Völker from Supabase for the current stand
+            let { data: völker, error } = await supabase
+                .from('völker')
+                .select('*')
+                .eq('standId', standId);
+
+            if (error) {
+                console.error('Error fetching völker:', error);
+                return;
+            }
+
+            // Display Völker on the page
+            völker.forEach(volk => {
+                let statusCircle = `<span class="status-circle" style="background: ${volk.status};"></span>`;
+
+                let hiveDiv = `<div class="hive" onclick="window.location.href='stoeke-update.html?id=${volk.id}&standId=${standId}'" oncontextmenu="showContextMenu(event, '${volk.id}')">
+                    <h3>${volk.stocknummer}</h3>
+                    <p>Status: ${statusCircle}</p>
+                    <p>Volkart: ${volk.volkart}</p>
+                    <p>Letzte Aktion: ${volk.letzteAktion}</p>
+                </div>`;
+                hiveContainer.innerHTML += hiveDiv;
+            });
+        }
+
+        function showContextMenu(event, volkId) {
+            event.preventDefault();
+            selectedVolkId = volkId;
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = `${event.pageX}px`;
+            contextMenu.style.top = `${event.pageY}px`;
+        }
+
+        async function deleteVolk() {
+            if (confirm('Möchten Sie dieses Volk wirklich löschen?')) {
+                let { error } = await supabase
+                    .from('völker')
+                    .delete()
+                    .eq('id', selectedVolkId);
+
+                if (error) {
+                    console.error('Error deleting volk:', error);
+                    return;
+                }
+
+                loadHives();
+            }
+            closeContextMenu();
+        }
+
+        function closeContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        window.addEventListener('click', closeContextMenu);
+        window.addEventListener('contextmenu', (event) => {
+            if (!event.target.closest('.hive')) {
+                closeContextMenu();
+            }
+        });
+
+        // Initialize and display Völker when the page loads
+        window.onload = function() {
+            loadHives();
+        };
+    </script>
+</body>
+</html>

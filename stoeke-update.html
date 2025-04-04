@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeeSchram - Volk Bearbeiten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #DAD2BE;
+        }
+        .navbar {
+            background: #2C3E50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1000px;
+            background: white;
+            margin: 50px auto 20px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            position: relative;
+        }
+        .add-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-menu {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .popup-menu button {
+            background: none;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .popup-menu button:hover {
+            background: #f0f0f0;
+        }
+        .popup-menu img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .left-section {
+            width: 150px;
+            text-align: center;
+        }
+        .middle-section {
+            flex: 1;
+            padding: 0 20px;
+        }
+        .right-section {
+            width: 250px;
+        }
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #2C3E50;
+            width: 150px;
+        }
+        .form-group input, .form-group select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            background: #F3F3F3;
+            width: 100%;
+        }
+        .color-selection {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .color-circle.selected {
+            transform: scale(1.2);
+        }
+        .green { background: green; }
+        .yellow { background: yellow; }
+        .red { background: red; }
+        .gray { background: lightgray; }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4F3D2F;
+            color: white;
+        }
+        .date-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .date-group input {
+            flex: 1;
+            background: #F3F3F3;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .extra-container {
+            max-width: 1000px;
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 0;
+            font-weight: bold;
+            color: #2C3E50;
+            text-align: center;
+        }
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: #4F3D2F;
+            transform: translateX(-50%);
+        }
+        .timeline-entry {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: #F3F3F3;
+            margin: 10px 0;
+            padding: 10px;
+            width: 48%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            position: relative;
+        }
+        .timeline-entry.left {
+            flex-direction: row-reverse;
+            right: 0;
+        }
+        .timeline-entry.right {
+            left: 0;
+        }
+        .timeline-entry .icon img {
+            max-width: 100%;
+            max-height: 50px;
+            display: block;
+            margin: auto;
+        }
+        .timeline-entry .content {
+            width: calc(100% - 60px);
+        }
+        .timeline-entry h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #34495e;
+        }
+        .timeline-entry p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        .timeline-entry p span {
+            font-weight: bold;
+            color: #34495e;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="navbar">BeeSchram</div>
+    <div class="container">
+        <button class="add-btn" onclick="togglePopupMenu()">+</button>
+        <div class="popup-menu" id="popupMenu">
+            <button onclick="addChronicleEntry('Honigernte')"><img src="svg/honigernte.svg" alt="Honigernte">Honigernte</button>
+            <button onclick="addChronicleEntry('Durchschau')"><img src="svg/durchschau.svg" alt="Durchschau">Durchschau</button>
+            <button onclick="addChronicleEntry('Varroabehandlung')"><img src="svg/varobehandlung.svg" alt="Varroabehandlung">Varroabehandlung</button>
+            <button onclick="addChronicleEntry('Varroakontrolle')"><img src="svg/varokontrolle.svg" alt="Varroakontrolle">Varroakontrolle</button>
+            <button onclick="addChronicleEntry('Fütterung')"><img src="svg/fuetterung.svg" alt="Fütterung">Fütterung</button>
+        </div>
+        <h2 id="volkName"></h2>
+        <div class="content">
+            <div class="left-section">
+                <img src="svg/bee.svg" alt="Biene" class="bee-logo">
+                <div class="color-selection">
+                    <div class="color-circle green" onclick="selectColor('green')"></div>
+                    <div class="color-circle yellow" onclick="selectColor('yellow')"></div>
+                    <div class="color-circle red" onclick="selectColor('red')"></div>
+                    <div class="color-circle gray" onclick="selectColor('gray')"></div>
+                </div>
+            </div>
+            <div class="middle-section">
+                <div class="form-group">
+                    <label>Stocknummer</label>
+                    <input type="text" id="stocknummer">
+                </div>
+                <div class="form-group">
+                    <label>Volkart</label>
+                    <select id="volkart">
+                        <option value="" disabled>Volkart auswählen</option>
+                        <option value="wirtschaftsvolk">Wirtschaftsvolk</option>
+                        <option value="ableger">Ableger</option>
+                        <option value="drohnenvolk">Drohnenvolk</option>
+                        <option value="pflegevolk">Pflegevolk</option>
+                        <option value="begattungsvölkchen">Begattungsvölkchen</option>
+                        <option value="schwarm">Schwarm</option>
+                        <option value="kunstschwarm">Kunstschwarm</option>
+                        <option value="flugling">Flugling</option>
+                        <option value="zuchtvolk">Zuchtvolk</option>
+                        <option value="prüfvolk">Prüfvolk</option>
+                        <option value="vermehrungsvolk">Vermehrungsvolk</option>
+                        <option value="brutling">Brutling</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Jahresfarbe Königin</label>
+                    <select id="jahresfarbe">
+                        <option value="nicht gekennzeichnet">nicht gekennzeichnet</option>
+                        <option value="weiß">Weiß</option>
+                        <option value="gelb">Gelb</option>
+                        <option value="rot">Rot</option>
+                        <option value="grün">Grün</option>
+                        <option value="blau">Blau</option>
+                    </select>
+                </div>
+            </div>
+            <div class="right-section">
+                <div class="form-group">
+                    <label>Königin-Zeichen</label>
+                    <input type="text" id="koenigin_zeichen">
+                </div>
+                <div class="form-group">
+                    <label>Volk erstellt</label>
+                    <div class="date-group">
+                        <span>📅 ✖</span>
+                        <input type="date" id="volk_erstellt">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Königin zugesetzt</label>
+                    <div class="date-group">
+                        <span>📅 ✖</span>
+                        <input type="date" id="koenigin_zugesetzt">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn" onclick="window.location.href='standort.html'">Abbrechen</button>
+            <button class="btn" onclick="aktualisierenVolk()">Aktualisieren</button>
+        </div>
+    </div>
+    <div class="extra-container">CHRONIK DES VOLKES</div>
+    <div class="extra-container">
+        <div class="timeline" id="timeline">
+            <!-- Example entry, dynamically generated entries will be added here -->
+            <div class="timeline-entry left" id="entry-1">
+                <div class="icon"><img src="svg/wanderung.svg" alt="Volk erstellt"></div>
+                <div class="content">
+                    <h3>VOLK ERSTELLT</h3>
+                    <p>03.04.2025</p>
+                    <p>Der Stock wurde erstellt am Standort: Vinschgau</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://sfvkzuiljvyuehnazkfc.supabase.co'; // Replace with your Supabase URL
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdmt6dWlsanZ5dWVobmF6a2ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3OTY3MjQsImV4cCI6MjA1OTM3MjcyNH0.K2DM4Uy0USSAOef3KBV74HVCLvQr-ml7nvLYj2hblRY'; // Replace with your Supabase Anon Key
+        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const volkId = urlParams.get('id');
+        const standId = urlParams.get('standId');
+
+        let völker = [];
+        let volk = null;
+        let selectedColor = '';
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.color-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelector(`.color-circle.${color}`).classList.add('selected');
+        }
+
+        async function togglePopupMenu() {
+            const popupMenu = document.getElementById('popupMenu');
+            const overlay = document.getElementById('overlay');
+            const isVisible = popupMenu.style.display === 'flex';
+            popupMenu.style.display = isVisible ? 'none' : 'flex';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+
+        async function addChronicleEntry(type) {
+            console.log(`Adding chronicle entry of type: ${type}`);
+            // Add logic to add a chronicle entry based on the type
+        }
+
+        async function deleteChronicleEntry(entryId) {
+            const entryIndex = volk.chronicles.findIndex(entry => entry.id === entryId);
+            if (entryIndex !== -1) {
+                volk.chronicles.splice(entryIndex, 1);
+                await supabase
+                    .from('völker')
+                    .update({ chronicles: volk.chronicles })
+                    .eq('id', volkId);
+                document.getElementById(entryId).remove();
+            }
+        }
+
+        async function loadVolkDetails() {
+            let { data, error } = await supabase
+                .from('völker')
+                .select('*')
+                .eq('id', volkId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching volk:', error);
+                return;
+            }
+
+            volk = data;
+            selectedColor = volk.status;
+            document.getElementById('volkName').innerText = volk.stocknummer;
+            document.getElementById('stocknummer').value = volk.stocknummer;
+            document.getElementById('volkart').value = volk.volkart;
+            document.getElementById('jahresfarbe').value = volk.jahresfarbe;
+            document.getElementById('volk_erstellt').value = volk.volkErstellt;
+            document.getElementById('koenigin_zugesetzt').value = volk.koeniginZugesetzt;
+            document.getElementById('koenigin_zeichen').value = volk.koeniginZeichen;
+
+            volk.chronicles.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = `timeline-entry ${entry.position}`;
+                entryDiv.id = entry.id;
+                entryDiv.innerHTML = `
+                    <div class="icon"><img src="${entry.icon}" alt="${entry.title}"></div>
+                    <div class="content">
+                        <h3>${entry.title}</h3>
+                        <p>${entry.date}</p>
+                        <p>${entry.details}</p>
+                    </div>
+                    ${entry.title !== 'VOLK ERSTELLT' ? '<button class="delete-btn" onclick="deleteChronicleEntry(\'' + entry.id + '\')">✖</button>' : ''}
+                `;
+                document.getElementById('timeline').appendChild(entryDiv);
+            });
+
+            document.querySelector(`.color-circle.${selectedColor}`).classList.add('selected');
+        }
+
+        async function aktualisierenVolk() {
+            volk.stocknummer = document.getElementById('stocknummer').value;
+            volk.volkart = document.getElementById('volkart').value;
+            volk.jahresfarbe = document.getElementById('jahresfarbe').value;
+            volk.volkErstellt = document.getElementById('volk_erstellt').value;
+            volk.koeniginZugesetzt = document.getElementById('koenigin_zugesetzt').value;
+            volk.koeniginZeichen = document.getElementById('koenigin_zeichen').value;
+            volk.status = selectedColor;
+
+            let { error } = await supabase
+                .from('völker')
+                .update(volk)
+                .eq('id', volkId);
+
+            if (error) {
+                console.error('Error updating volk:', error);
+                return;
+            }
+
+            window.location.href = 'standort.html?standId=' + standId;
+        }
+
+        loadVolkDetails();
+    </script>
+</body>
+</html>
