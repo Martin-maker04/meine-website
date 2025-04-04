@@ -30,6 +30,53 @@
             display: flex;
             flex-direction: column;
             border-radius: 0;
+            position: relative;
+        }
+        .add-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-menu {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .popup-menu button {
+            background: none;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .popup-menu button:hover {
+            background: #f0f0f0;
+        }
+        .popup-menu img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
         }
         .content {
             display: flex;
@@ -82,6 +129,9 @@
             border: 1px solid black;
             cursor: pointer;
         }
+        .color-circle.selected {
+            transform: scale(1.2);
+        }
         .green { background: green; }
         .yellow { background: yellow; }
         .red { background: red; }
@@ -133,7 +183,7 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 8px; /* Halber cm dicker */
+            width: 8px;
             background: #4F3D2F;
             transform: translateX(-50%);
         }
@@ -141,34 +191,20 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            background: white;
-            border: 1px solid #ccc;
+            background: #F3F3F3;
             margin: 10px 0;
             padding: 10px;
-            width: 45%;
+            width: 48%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
             position: relative;
         }
-        .timeline-entry::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            width: 20px;
-            height: 20px;
-            background: #4F3D2F;
-            border: 2px solid white;
-            border-radius: 50%;
-            z-index: 1;
-            left: 50%;
-            transform: translateX(-50%);
-        }
         .timeline-entry.left {
             flex-direction: row-reverse;
-            left: -4%; /* Dicht neben dem Strich */
+            right: 0;
         }
         .timeline-entry.right {
-            left: 4%; /* Dicht neben dem Strich */
+            left: 0;
         }
         .timeline-entry .icon img {
             max-width: 100%;
@@ -193,15 +229,35 @@
             font-weight: bold;
             color: #34495e;
         }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
+    <div class="overlay" id="overlay"></div>
     <div class="navbar">BeeSchram</div>
     <div class="container">
+        <button class="add-btn" onclick="togglePopupMenu()">+</button>
+        <div class="popup-menu" id="popupMenu">
+            <button onclick="addChronicleEntry('Honigernte')"><img src="svg/honigernte.svg" alt="Honigernte">Honigernte</button>
+            <button onclick="addChronicleEntry('Durchschau')"><img src="svg/durchschau.svg" alt="Durchschau">Durchschau</button>
+            <button onclick="addChronicleEntry('Varroabehandlung')"><img src="svg/varobehandlung.svg" alt="Varroabehandlung">Varroabehandlung</button>
+            <button onclick="addChronicleEntry('Varroakontrolle')"><img src="svg/varokontrolle.svg" alt="Varroakontrolle">Varroakontrolle</button>
+            <button onclick="addChronicleEntry('Fütterung')"><img src="svg/fuetterung.svg" alt="Fütterung">Fütterung</button>
+        </div>
         <h2 id="volkName"></h2>
         <div class="content">
             <div class="left-section">
-                <img src="svg/bee.svg" alt="Biene" class="bee-logo">  <!-- Ersetze bee.svg mit dem Pfad zu deinem Bienen-Logo -->
+                <img src="svg/bee.svg" alt="Biene" class="bee-logo">
                 <div class="color-selection">
                     <div class="color-circle green" onclick="selectColor('green')"></div>
                     <div class="color-circle yellow" onclick="selectColor('yellow')"></div>
@@ -217,7 +273,7 @@
                 <div class="form-group">
                     <label>Volkart</label>
                     <select id="volkart">
-                        <option value="" disabled selected>Volkart auswählen</option>
+                        <option value="" disabled>Volkart auswählen</option>
                         <option value="wirtschaftsvolk">Wirtschaftsvolk</option>
                         <option value="ableger">Ableger</option>
                         <option value="drohnenvolk">Drohnenvolk</option>
@@ -235,7 +291,7 @@
                 <div class="form-group">
                     <label>Jahresfarbe Königin</label>
                     <select id="jahresfarbe">
-                        <option value="nicht gekennzeichnet" selected>nicht gekennzeichnet</option>
+                        <option value="nicht gekennzeichnet">nicht gekennzeichnet</option>
                         <option value="weiß">Weiß</option>
                         <option value="gelb">Gelb</option>
                         <option value="rot">Rot</option>
@@ -272,8 +328,9 @@
     </div>
     <div class="extra-container">CHRONIK DES VOLKES</div>
     <div class="extra-container">
-        <div class="timeline">
-            <div class="timeline-entry left">
+        <div class="timeline" id="timeline">
+            <!-- Example entry, dynamically generated entries will be added here -->
+            <div class="timeline-entry left" id="entry-1">
                 <div class="icon"><img src="svg/wanderung.svg" alt="Volk erstellt"></div>
                 <div class="content">
                     <h3>VOLK ERSTELLT</h3>
@@ -281,62 +338,78 @@
                     <p>Der Stock wurde erstellt am Standort: Vinschgau</p>
                 </div>
             </div>
-            <div class="timeline-entry right">
-                <div class="icon"><img src="svg/varokontrolle.svg" alt="Varroakontrolle"></div>
-                <div class="content">
-                    <h3>VARROAKONTROLLE</h3>
-                    <p>03.04.2025</p>
-                    <p>Kontrollmethode: <span>Bodenkontrolle</span><br>Anzahl Varroen: <span>4</span><br>Anzahl Kontrolltage: <span>1</span><br>Varroen pro Tag: <span>4,0</span></p>
-                </div>
-            </div>
-            <div class="timeline-entry left">
-                <div class="icon"><img src="svg/honigernte.svg" alt="Honigernte"></div>
-                <div class="content">
-                    <h3>HONIGERNTE</h3>
-                    <p>03.04.2025</p>
-                    <p>Honigsorte:<br>Wassergehalt: <span>0,00 %</span><br>Menge: <span>0,00 kg</span></p>
-                </div>
-            </div>
-            <div class="timeline-entry right">
-                <div class="icon"><img src="svg/varobehandlung.svg" alt="Varroabehandlung"></div>
-                <div class="content">
-                    <h3>VARROABEHANDLUNG</h3>
-                    <p>03.04.2025</p>
-                    <p>Mittel: <span>ApiBioxal (A)</span><br>Methode: <span>Verdampfen</span><br>Menge: <span>5 g</span></p>
-                </div>
-            </div>
-            <div class="timeline-entry left">
-                <div class="icon"><img src="svg/durchschau.svg" alt="Durchschau"></div>
-                <div class="content">
-                    <h3>DURCHSCHAU</h3>
-                    <p>03.04.2025</p>
-                    <p>Volksstärke: <span>4</span><br>Brut: <span>4</span><br>Warbensitz: <span>3</span><br>Sanftmut: <span>4</span><br>Bienenmenge: <span>5</span><br>Königin gesehen: <span>Ja</span></p>
-                </div>
-            </div>
         </div>
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const volkId = urlParams.get('id');
-        const standId = urlParams.get('standId');
+        const stocknummer = urlParams.get('stocknummer');
+        const volkart = urlParams.get('volkart');
+        const jahresfarbe = urlParams.get('jahresfarbe');
+        const volkErstellt = urlParams.get('volkErstellt');
+        const koeniginZugesetzt = urlParams.get('koeniginZugesetzt');
+        const koeniginZeichen = urlParams.get('koeniginZeichen');
+        const status = urlParams.get('status');
 
         let völker = JSON.parse(localStorage.getItem('völker')) || [];
         let volk = völker.find(v => v.id === volkId);
 
-        let selectedColor = volk.status;
+        let selectedColor = status;
 
         function selectColor(color) {
             selectedColor = color;
+            document.querySelectorAll('.color-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelector(`.color-circle.${color}`).classList.add('selected');
+        }
+
+        function togglePopupMenu() {
+            const popupMenu = document.getElementById('popupMenu');
+            const overlay = document.getElementById('overlay');
+            const isVisible = popupMenu.style.display === 'flex';
+            popupMenu.style.display = isVisible ? 'none' : 'flex';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function addChronicleEntry(type) {
+            // Add logic to add a chronicle entry based on the type
+            console.log(`Adding chronicle entry of type: ${type}`);
+        }
+
+        function deleteChronicleEntry(entryId) {
+            const entryIndex = volk.chronicles.findIndex(entry => entry.id === entryId);
+            if (entryIndex !== -1) {
+                volk.chronicles.splice(entryIndex, 1);
+                localStorage.setItem('völker', JSON.stringify(völker));
+                document.getElementById(entryId).remove();
+            }
         }
 
         if (volk) {
-            document.getElementById('volkName').innerText = volk.stocknummer;
-            document.getElementById('stocknummer').value = volk.stocknummer;
-            document.getElementById('volkart').value = volk.volkart;
-            document.getElementById('jahresfarbe').value = volk.jahresfarbe;
-            document.getElementById('volk_erstellt').value = volk.volkErstellt;
-            document.getElementById('koenigin_zugesetzt').value = volk.koeniginZugesetzt;
-            document.getElementById('koenigin_zeichen').value = volk.koeniginZeichen;
+            document.getElementById('volkName').innerText = stocknummer;
+            document.getElementById('stocknummer').value = stocknummer;
+            document.getElementById('volkart').value = volkart;
+            document.getElementById('jahresfarbe').value = jahresfarbe;
+            document.getElementById('volk_erstellt').value = volkErstellt;
+            document.getElementById('koenigin_zugesetzt').value = koeniginZugesetzt;
+            document.getElementById('koenigin_zeichen').value = koeniginZeichen;
+
+            volk.chronicles.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = `timeline-entry ${entry.position}`;
+                entryDiv.id = entry.id;
+                entryDiv.innerHTML = `
+                    <div class="icon"><img src="${entry.icon}" alt="${entry.title}"></div>
+                    <div class="content">
+                        <h3>${entry.title}</h3>
+                        <p>${entry.date}</p>
+                        <p>${entry.details}</p>
+                    </div>
+                    ${entry.title !== 'VOLK ERSTELLT' ? '<button class="delete-btn" onclick="deleteChronicleEntry(\'' + entry.id + '\')">✖</button>' : ''}
+                `;
+                document.getElementById('timeline').appendChild(entryDiv);
+            });
         }
 
         function aktualisierenVolk() {
@@ -349,8 +422,11 @@
             volk.status = selectedColor;
 
             localStorage.setItem('völker', JSON.stringify(völker));
-            window.location.href = 'standort.html?standId=' + standId;
+            window.location.href = 'standort.html?standId=' + volk.standId;
         }
+
+        // Set the initial selected color
+        document.querySelector(`.color-circle.${selectedColor}`).classList.add('selected');
     </script>
 </body>
 </html>
