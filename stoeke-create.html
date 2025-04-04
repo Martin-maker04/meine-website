@@ -81,6 +81,10 @@
             border-radius: 50%;
             border: 1px solid black;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .color-circle:hover, .color-circle.selected {
+            transform: scale(1.2);
         }
         .green { background: green; }
         .yellow { background: yellow; }
@@ -204,6 +208,10 @@
 
         function selectColor(color) {
             selectedColor = color;
+            document.querySelectorAll('.color-circle').forEach(circle => {
+                circle.classList.remove('selected');
+            });
+            document.querySelector(`.color-circle.${color}`).classList.add('selected');
         }
 
         function erstellenVolk() {
@@ -239,7 +247,9 @@
             völker.push(neuesVolk);
             localStorage.setItem('völker', JSON.stringify(völker));
 
-            window.location.href = 'standort.html?standId=' + standId;
+            // Weiterleiten zur Update-Seite mit den Formulardaten als URL-Parameter
+            const queryParams = new URLSearchParams(neuesVolk).toString();
+            window.location.href = 'stoeke-update.html?' + queryParams;
         }
 
         // Set the current date as the default value for 'Volk erstellt'
