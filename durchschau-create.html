@@ -185,6 +185,32 @@
       text-align: center;
       font-size: 1.2rem;
     }
+
+    .stars {
+      display: flex;
+      align-items: center;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      cursor: pointer;
+      color: #ccc;
+      font-size: 2rem;
+      padding: 0;
+      margin-right: 2px;
+    }
+
+    .stars input:checked ~ label {
+      color: #ffcc00;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: #ffcc00;
+    }
   </style>
 </head>
 <body>
@@ -265,6 +291,65 @@
       </div>
     </div>
 
+    <!-- Verhalten -->
+    <div class="section-box">
+      <h3>Verhalten</h3>
+      <div class="form-row">
+        <label>Volksstärke</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="resetStars('volksstaerke')">-</button>
+          <div class="stars" id="volksstaerke">
+            <input type="radio" id="volksstaerke-1" name="volksstaerke" value="1">
+            <label for="volksstaerke-1">★</label>
+            <input type="radio" id="volksstaerke-2" name="volksstaerke" value="2">
+            <label for="volksstaerke-2">★</label>
+            <input type="radio" id="volksstaerke-3" name="volksstaerke" value="3">
+            <label for="volksstaerke-3">★</label>
+            <input type="radio" id="volksstaerke-4" name="volksstaerke" value="4">
+            <label for="volksstaerke-4">★</label>
+            <input type="radio" id="volksstaerke-5" name="volksstaerke" value="5">
+            <label for="volksstaerke-5">★</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Wabensitz</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="resetStars('wabensitz')">-</button>
+          <div class="stars" id="wabensitz">
+            <input type="radio" id="wabensitz-1" name="wabensitz" value="1">
+            <label for="wabensitz-1">★</label>
+            <input type="radio" id="wabensitz-2" name="wabensitz" value="2">
+            <label for="wabensitz-2">★</label>
+            <input type="radio" id="wabensitz-3" name="wabensitz" value="3">
+            <label for="wabensitz-3">★</label>
+            <input type="radio" id="wabensitz-4" name="wabensitz" value="4">
+            <label for="wabensitz-4">★</label>
+            <input type="radio" id="wabensitz-5" name="wabensitz" value="5">
+            <label for="wabensitz-5">★</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Sanftmut</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="resetStars('sanftmut')">-</button>
+          <div class="stars" id="sanftmut">
+            <input type="radio" id="sanftmut-1" name="sanftmut" value="1">
+            <label for="sanftmut-1">★</label>
+            <input type="radio" id="sanftmut-2" name="sanftmut" value="2">
+            <label for="sanftmut-2">★</label>
+            <input type="radio" id="sanftmut-3" name="sanftmut" value="3">
+            <label for="sanftmut-3">★</label>
+            <input type="radio" id="sanftmut-4" name="sanftmut" value="4">
+            <label for="sanftmut-4">★</label>
+            <input type="radio" id="sanftmut-5" name="sanftmut" value="5">
+            <label for="sanftmut-5">★</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Speichern Button -->
     <div class="save-button">
       <button id="saveButton">Speichern</button>
@@ -292,11 +377,23 @@
       counter.textContent = parseInt(counter.textContent) - 1;
     }
 
+    function resetStars(id) {
+      const stars = document.getElementById(id);
+      const inputs = stars.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.checked = false;
+      });
+    }
+
     saveButton.addEventListener('click', () => {
       const mittelwaende = document.getElementById('mittelwaende').textContent;
       const brutwaben = document.getElementById('brutwaben').textContent;
       const futterwaben = document.getElementById('futterwaben').textContent;
       const ausgebWaben = document.getElementById('ausgeb-waben').textContent;
+
+      const volksstaerke = document.querySelector('input[name="volksstaerke"]:checked') ? document.querySelector('input[name="volksstaerke"]:checked').value : 0;
+      const wabensitz = document.querySelector('input[name="wabensitz"]:checked') ? document.querySelector('input[name="wabensitz"]:checked').value : 0;
+      const sanftmut = document.querySelector('input[name="sanftmut"]:checked') ? document.querySelector('input[name="sanftmut"]:checked').value : 0;
 
       const durchschau = {
         id: new Date().getTime().toString(),
@@ -307,7 +404,10 @@
         brutwaben: brutwaben,
         futterwaben: futterwaben,
         ausgebWaben: ausgebWaben,
-        details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, ausgeb. Waben: ${ausgebWaben}`,
+        volksstaerke: volksstaerke,
+        wabensitz: wabensitz,
+        sanftmut: sanftmut,
+        details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, ausgeb. Waben: ${ausgebWaben}, Volksstärke: ${volksstaerke}, Wabensitz: ${wabensitz}, Sanftmut: ${sanftmut}`,
         icon: 'svg/durchschau.svg',
         position: 'left'
       };
