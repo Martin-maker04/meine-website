@@ -206,15 +206,7 @@
         Impressum Martin Platter 26.03.2025
     </footer>
 
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        // Initialize Supabase
-        const supabaseUrl = 'https://sfvkzuiljvyuehnazkfc.supabase.co'; // Replace with your Supabase URL
-        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdmt6dWlsanZ5dWVobmF6a2ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3OTY3MjQsImV4cCI6MjA1OTM3MjcyNH0.K2DM4Uy0USSAOef3KBV74HVCLvQr-ml7nvLYj2hblRY'; // Replace with your Supabase Anon Key
-        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
-
-        // Existing JavaScript code
         var standorte = JSON.parse(localStorage.getItem('standorte')) || [];
         var standorteListe = document.getElementById('standorteListe');
         var contextMenu = document.getElementById('contextMenu');
