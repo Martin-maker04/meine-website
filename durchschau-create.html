@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beeintouch - Durchschau</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #d9d3be;
+    }
+
+    header {
+      background-color: #2c3e50;
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-left b, .nav-left a, .nav-right a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-right img {
+      width: 20px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .bee-icon {
+      text-align: center;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .bee-icon img {
+      width: 120px;
+    }
+
+    .section-box {
+      margin: 2rem auto;
+      max-width: 700px;
+      background-color: #f0f4f6;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+
+    .section-box h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #333;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .form-row label {
+      font-size: 1.1rem;
+      font-weight: 500;
+      min-width: 180px;
+    }
+
+    .toggle-wrapper {
+      position: relative;
+      width: 220px;
+      height: 50px;
+      overflow: hidden;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .toggle-inner {
+      display: flex;
+      width: 330px;
+      height: 100%;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .toggle-option {
+      width: 110px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      background-color: #4b3a2d;
+    }
+
+    .toggle-middle {
+      width: 110px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #4b3a2d;
+      background-color: #fff;
+    }
+
+    .toggle-wrapper.toggled .toggle-inner {
+      transform: translateX(-110px);
+    }
+
+    .save-button {
+      margin-top: 2rem;
+      text-align: right;
+    }
+
+    .save-button button {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .save-button button:hover {
+      background-color: #1c2b3a;
+    }
+
+    .counter-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .counter-button {
+      background-color: #4b3a2d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .counter-value {
+      padding: 10px 40px;
+      border: 1px solid #ccc;
+      background-color: #f0f4f6;
+      border-radius: 5px;
+      width: 200px; /* 20 cm */
+      text-align: center;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <b>BEEINTOUCH</b>
+      <a href="#">STÄNDE</a>
+      <a href="#">LAGER</a>
+      <a href="#">ZUCHT</a>
+      <a href="#">BÜRO</a>
+    </div>
+    <div class="nav-right">
+      <img src="https://flagcdn.com/de.svg" alt="Deutsch">
+      <a href="#">👤</a>
+      <a href="#">🔍</a>
+      <a href="#">❓</a>
+      <a href="#">FAQ</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="title">DURCHSCHAU</div>
+
+    <div class="bee-icon">
+      <img src="svg/durchschau.svg" alt="Biene">
+    </div>
+
+    <!-- Allg. Befund -->
+    <div class="section-box">
+      <h3>allg. Befund</h3>
+      <div class="form-row">
+        <label>Königin gesehen</label>
+        <div class="toggle-wrapper" id="toggleBox">
+          <div class="toggle-inner">
+            <div class="toggle-option yes">Ja</div>
+            <div class="toggle-middle"></div>
+            <div class="toggle-option no">Nein</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- gegeben/entnommen -->
+    <div class="section-box">
+      <h3>Gegeben / Entnommen</h3>
+      <div class="form-row">
+        <label>Mittelwände</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="decrementCounter('mittelwaende')">-</button>
+          <div class="counter-value" id="mittelwaende">0</div>
+          <button class="counter-button" onclick="incrementCounter('mittelwaende')">+</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Brutwaben</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="decrementCounter('brutwaben')">-</button>
+          <div class="counter-value" id="brutwaben">0</div>
+          <button class="counter-button" onclick="incrementCounter('brutwaben')">+</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Futterwaben</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="decrementCounter('futterwaben')">-</button>
+          <div class="counter-value" id="futterwaben">0</div>
+          <button class="counter-button" onclick="incrementCounter('futterwaben')">+</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>ausgeb. Waben</label>
+        <div class="counter-container">
+          <button class="counter-button" onclick="decrementCounter('ausgeb-waben')">-</button>
+          <div class="counter-value" id="ausgeb-waben">0</div>
+          <button class="counter-button" onclick="incrementCounter('ausgeb-waben')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Speichern Button -->
+    <div class="save-button">
+      <button id="saveButton">Speichern</button>
+    </div>
+
+  </main>
+
+  <script>
+    const toggleBox = document.getElementById('toggleBox');
+    const saveButton = document.getElementById('saveButton');
+    let queenSeen = false;
+
+    toggleBox.addEventListener('click', () => {
+      toggleBox.classList.toggle('toggled');
+      queenSeen = !queenSeen;
+    });
+
+    function incrementCounter(id) {
+      const counter = document.getElementById(id);
+      counter.textContent = parseInt(counter.textContent) + 1;
+    }
+
+    function decrementCounter(id) {
+      const counter = document.getElementById(id);
+      counter.textContent = parseInt(counter.textContent) - 1;
+    }
+
+    saveButton.addEventListener('click', () => {
+      const mittelwaende = document.getElementById('mittelwaende').textContent;
+      const brutwaben = document.getElementById('brutwaben').textContent;
+      const futterwaben = document.getElementById('futterwaben').textContent;
+      const ausgebWaben = document.getElementById('ausgeb-waben').textContent;
+
+      const durchschau = {
+        id: new Date().getTime().toString(),
+        title: 'DURCHSCHAU',
+        date: new Date().toLocaleDateString(),
+        queenSeen: queenSeen ? 'Ja' : 'Nein',
+        mittelwaende: mittelwaende,
+        brutwaben: brutwaben,
+        futterwaben: futterwaben,
+        ausgebWaben: ausgebWaben,
+        details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, ausgeb. Waben: ${ausgebWaben}`,
+        icon: 'svg/durchschau.svg',
+        position: 'left'
+      };
+
+      let völker = JSON.parse(localStorage.getItem('völker')) || [];
+      let volkId = new URLSearchParams(window.location.search).get('id');
+      let volk = völker.find(v => v.id === volkId);
+
+      if (volk) {
+        volk.chronicles.push(durchschau);
+        localStorage.setItem('völker', JSON.stringify(völker));
+        alert('Durchschau gespeichert!');
+        window.location.href = 'stoeke-update.html?id=' + volk.id;
+      } else {
+        alert('Volk nicht gefunden!');
+      }
+    });
+  </script>
+
+</body>
+</html>
