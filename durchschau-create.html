@@ -181,14 +181,14 @@
       border: 1px solid #ccc;
       background-color: #f0f4f6;
       border-radius: 5px;
-      width: 200px; /* 20 cm */
+      width: 200px;
       text-align: center;
       font-size: 1.2rem;
     }
 
     .stars {
       display: flex;
-      gap: 4px; /* Geringerer Abstand zwischen den Sternen */
+      gap: 4px;
     }
 
     .stars input {
@@ -208,6 +208,54 @@
     .stars label:hover,
     .stars label:hover ~ label {
       color: #ffcc00;
+    }
+
+    .timeline {
+      margin-top: 2rem;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    .timeline-entry {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      border-left: 3px solid #4b3a2d;
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .timeline-entry .icon {
+      position: absolute;
+      left: -15px;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      background-color: #4b3a2d;
+      border-radius: 50%;
+    }
+
+    .timeline-entry .icon img {
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+    }
+
+    .timeline-entry .content {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      flex: 1;
+    }
+
+    .timeline-entry .content h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .timeline-entry .content p {
+      margin: 5px 0;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -239,7 +287,7 @@
 
     <!-- Allg. Befund -->
     <div class="section-box">
-      <h3>allg. Befund</h3>
+      <h3>Allg. Befund</h3>
       <div class="form-row">
         <label>Königin gesehen</label>
         <div class="toggle-wrapper" id="toggleBox">
@@ -280,7 +328,7 @@
         </div>
       </div>
       <div class="form-row">
-        <label>ausgeb. Waben</label>
+        <label>Ausgeb. Waben</label>
         <div class="counter-container">
           <button class="counter-button" onclick="decrementCounter('ausgeb-waben')">-</button>
           <div class="counter-value" id="ausgeb-waben">0</div>
@@ -348,21 +396,30 @@
       </div>
     </div>
 
-    <!-- Speichern Button -->
+    <!-- Chronik -->
+    <div class="section-box">
+      <h3>Chronik</h3>
+      <button class="counter-button" onclick="addChronicleEntry()">Neuer Eintrag</button>
+      <ul class="timeline" id="timeline">
+        <!-- Hier kommen die Chronikeinträge -->
+      </ul>
+    </div>
+
+    <!-- Save button -->
     <div class="save-button">
-      <button id="saveButton">Speichern</button>
+      <button id="saveButton">Daten speichern und weiter</button>
     </div>
 
   </main>
 
   <script>
-    const toggleBox = document.getElementById('toggleBox');
-    const saveButton = document.getElementById('saveButton');
+    // Interaktive Funktionen
     let queenSeen = false;
 
-    toggleBox.addEventListener('click', () => {
-      toggleBox.classList.toggle('toggled');
+    document.getElementById('toggleBox').addEventListener('click', () => {
+      const wrapper = document.getElementById('toggleBox');
       queenSeen = !queenSeen;
+      wrapper.classList.toggle('toggled');
     });
 
     function incrementCounter(id) {
@@ -372,18 +429,33 @@
 
     function decrementCounter(id) {
       const counter = document.getElementById(id);
-      counter.textContent = parseInt(counter.textContent) - 1;
+      if (parseInt(counter.textContent) > 0) {
+        counter.textContent = parseInt(counter.textContent) - 1;
+      }
     }
 
     function resetStars(id) {
-      const stars = document.getElementById(id);
-      const inputs = stars.querySelectorAll('input');
-      inputs.forEach(input => {
-        input.checked = false;
-      });
+      const stars = document.getElementById(id).getElementsByTagName('input');
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].checked = false;
+      }
     }
 
-    saveButton.addEventListener('click', () => {
+    function addChronicleEntry() {
+      const timeline = document.getElementById('timeline');
+      const entry = document.createElement('li');
+      entry.className = 'timeline-entry';
+      entry.innerHTML = `
+        <div class="icon"><img src="svg/durchschau.svg" alt="Durchschau"></div>
+        <div class="content">
+          <h3>Durchschau am ${new Date().toLocaleDateString()}</h3>
+          <p><span>Details:</span> Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}</p>
+        </div>
+      `;
+      timeline.appendChild(entry);
+    }
+
+    document.getElementById('saveButton').addEventListener('click', () => {
       const mittelwaende = document.getElementById('mittelwaende').textContent;
       const brutwaben = document.getElementById('brutwaben').textContent;
       const futterwaben = document.getElementById('futterwaben').textContent;
@@ -408,8 +480,10 @@
         details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, Ausgeb. Waben: ${ausgebWaben}`,
       };
 
+      // Nach dem Speichern den Benutzer zur Bienenvolk-Seite weiterleiten
       console.log(durchschau);
       alert('Daten gespeichert!');
+      window.location.href = "/stoeke-update.html"; // Beispiel-URL der Bienenvolk-Seite
     });
   </script>
 
