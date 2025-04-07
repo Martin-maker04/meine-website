@@ -49,7 +49,24 @@
             align-items: center;
             justify-content: center;
         }
-        .popup-menu {
+        .add-btn-chronic {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #FF6347;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-menu, .popup-menu-chronic {
             position: absolute;
             top: 50px;
             right: 10px;
@@ -60,7 +77,7 @@
             flex-direction: column;
             z-index: 1000;
         }
-        .popup-menu button {
+        .popup-menu button, .popup-menu-chronic button {
             background: none;
             border: none;
             padding: 10px;
@@ -70,10 +87,10 @@
             display: flex;
             align-items: center;
         }
-        .popup-menu button:hover {
+        .popup-menu button:hover, .popup-menu-chronic button:hover {
             background: #f0f0f0;
         }
-        .popup-menu img {
+        .popup-menu img, .popup-menu-chronic img {
             width: 20px;
             height: 20px;
             margin-right: 10px;
@@ -259,48 +276,27 @@
             <div class="left-section">
                 <img src="svg/bee.svg" alt="Biene" class="bee-logo">
                 <div class="color-selection">
-                    <div class="color-circle green" onclick="selectColor('green')"></div>
-                    <div class="color-circle yellow" onclick="selectColor('yellow')"></div>
-                    <div class="color-circle red" onclick="selectColor('red')"></div>
-                    <div class="color-circle gray" onclick="selectColor('gray')"></div>
+                    <div class="color-circle green"></div>
+                    <div class="color-circle yellow"></div>
+                    <div class="color-circle red"></div>
+                    <div class="color-circle gray"></div>
                 </div>
             </div>
             <div class="middle-section">
                 <div class="form-group">
-                    <label>Stocknummer</label>
-                    <input type="text" id="stocknummer">
+                    <label>Volk Name</label>
+                    <input type="text" id="volkNameInput" value="Mein Volk">
                 </div>
                 <div class="form-group">
-                    <label>Volkart</label>
-                    <select id="volkart">
-                        <option value="" disabled>Volkart auswählen</option>
-                        <option value="wirtschaftsvolk">Wirtschaftsvolk</option>
-                        <option value="ableger">Ableger</option>
-                        <option value="drohnenvolk">Drohnenvolk</option>
-                        <option value="pflegevolk">Pflegevolk</option>
-                        <option value="begattungsvölkchen">Begattungsvölkchen</option>
-                        <option value="schwarm">Schwarm</option>
-                        <option value="kunstschwarm">Kunstschwarm</option>
-                        <option value="flugling">Flugling</option>
-                        <option value="zuchtvolk">Zuchtvolk</option>
-                        <option value="prüfvolk">Prüfvolk</option>
-                        <option value="vermehrungsvolk">Vermehrungsvolk</option>
-                        <option value="brutling">Brutling</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Jahresfarbe Königin</label>
-                    <select id="jahresfarbe">
-                        <option value="nicht gekennzeichnet">nicht gekennzeichnet</option>
-                        <option value="weiß">Weiß</option>
-                        <option value="gelb">Gelb</option>
-                        <option value="rot">Rot</option>
-                        <option value="grün">Grün</option>
-                        <option value="blau">Blau</option>
-                    </select>
+                    <label>Volk Gründungsjahr</label>
+                    <input type="number" id="volkGründungsjahr" value="2020">
                 </div>
             </div>
             <div class="right-section">
+                <button class="add-btn-chronic" onclick="togglePopupMenuChronic()">+</button>
+                <div class="popup-menu-chronic" id="popupMenuChronic">
+                    <button onclick="addChronicleEntry('Neuer Chronikeintrag')"><img src="svg/chronik.svg" alt="Neuer Chronikeintrag">Neuer Chronikeintrag</button>
+                </div>
                 <div class="form-group">
                     <label>Königin-Zeichen</label>
                     <input type="text" id="koenigin_zeichen">
@@ -322,16 +318,41 @@
             </div>
         </div>
         <div class="buttons">
-            <button class="btn" onclick="window.location.href='standort.html'">Abbrechen</button>
-            <button class="btn" onclick="aktualisierenVolk()">Aktualisieren</button>
+            <button class="btn">Speichern</button>
+            <button class="btn">Abbrechen</button>
         </div>
     </div>
-    <div class="extra-container">CHRONIK DES VOLKES</div>
     <div class="extra-container">
-        <div class="timeline" id="timeline">
-            <!-- Example entry, dynamically generated entries will be added here -->
-            <div class="timeline-entry left" id="entry-1">
-                <div class="icon"><img src="svg/wanderung.svg" alt="Volk erstellt"></div>
-                <div class="content">
-                    <h3>VOLK ERSTELLT</h3>
-                    <p>03.04.2025</p>
+        <div class="timeline" id="timeline"></div>
+    </div>
+    <script>
+        const volk = {
+            chronicles: []
+        };
+        function togglePopupMenu() {
+            const popupMenu = document.getElementById('popupMenu');
+            const overlay = document.getElementById('overlay');
+            const isVisible = popupMenu.style.display === 'flex';
+            popupMenu.style.display = isVisible ? 'none' : 'flex';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+        function togglePopupMenuChronic() {
+            const popupMenuChronic = document.getElementById('popupMenuChronic');
+            const overlay = document.getElementById('overlay');
+            const isVisible = popupMenuChronic.style.display === 'flex';
+            popupMenuChronic.style.display = isVisible ? 'none' : 'flex';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+        function addChronicleEntry(entry) {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'timeline-entry';
+            entryDiv.innerHTML = `<div class="icon"><img src="svg/${entry.toLowerCase()}.svg" alt="${entry}"></div><div class="content"><h3>${entry}</h3><p><span>Details:</span> Hier können weitere Informationen stehen.</p></div>`;
+            document.getElementById('timeline').appendChild(entryDiv);
+            togglePopupMenu();
+        }
+        function navigateToDurchschau() {
+            window.location.href = '/durchschau-create.html';  // Korrigierte URL für die Weiterleitung
+        }
+    </script>
+</body>
+</html>
