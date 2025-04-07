@@ -188,7 +188,7 @@
 
     .stars {
       display: flex;
-      align-items: center;
+      gap: 4px; /* Geringerer Abstand zwischen den Sternen */
     }
 
     .stars input {
@@ -196,15 +196,12 @@
     }
 
     .stars label {
-      cursor: pointer;
-      color: #ccc;
       font-size: 2rem;
-      padding: 0;
-      margin-right: 2px;
+      color: #ccc;
+      cursor: pointer;
     }
 
-    .stars input:checked ~ label,
-    .stars input:checked ~ label ~ label {
+    .stars input:checked ~ label {
       color: #ffcc00;
     }
 
@@ -408,23 +405,11 @@
         volksstaerke: volksstaerke,
         wabensitz: wabensitz,
         sanftmut: sanftmut,
-        details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, ausgeb. Waben: ${ausgebWaben}, Volksstärke: ${volksstaerke}, Wabensitz: ${wabensitz}, Sanftmut: ${sanftmut}`,
-        icon: 'svg/durchschau.svg',
-        position: 'left'
+        details: `Königin gesehen: ${queenSeen ? 'Ja' : 'Nein'}, Mittelwände: ${mittelwaende}, Brutwaben: ${brutwaben}, Futterwaben: ${futterwaben}, Ausgeb. Waben: ${ausgebWaben}`,
       };
 
-      let völker = JSON.parse(localStorage.getItem('völker')) || [];
-      let volkId = new URLSearchParams(window.location.search).get('id');
-      let volk = völker.find(v => v.id === volkId);
-
-      if (volk) {
-        volk.chronicles.push(durchschau);
-        localStorage.setItem('völker', JSON.stringify(völker));
-        alert('Durchschau gespeichert!');
-        window.location.href = 'stoeke-update.html?id=' + volk.id;
-      } else {
-        alert('Volk nicht gefunden!');
-      }
+      console.log(durchschau);
+      alert('Daten gespeichert!');
     });
   </script>
 
