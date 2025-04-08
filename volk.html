@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Völker Verwaltung</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        nav li {
+            position: relative;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        nav ul ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            padding: 0;
+        }
+        nav ul ul li {
+            width: 180px;
+        }
+        nav ul li:hover > ul {
+            display: block;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .weather-map-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .weather-container, .map-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            margin-right: 10px;
+        }
+        .map-container {
+            margin-right: 0;
+            flex: 1;
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+        }
+        .weather-item {
+            margin-bottom: 10px;
+        }
+        .volk-section {
+            position: relative;
+        }
+        .volk-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .volk {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 4cm;
+            height: 3cm;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .volk:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        #addVolk {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #addVolk:hover {
+            background-color: #45a049;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .popup h3 {
+            margin-top: 0;
+        }
+        .popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .popup button.confirm {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .popup button.confirm:hover {
+            background-color: #45a049;
+        }
+        .popup button.cancel {
+            background-color: #f44336;
+            color: white;
+        }
+        .popup button.cancel:hover {
+            background-color: #e53935;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Völker Verwaltung für <span id="standName"></span></h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li>
+                <a href="#">Lager</a>
+                <ul>
+                    <li><a href="lager.html">Lager</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Zucht</a>
+                <ul>
+                    <li><a href="zuchtplan.html">Zuchtplan</a></li>
+                    <li><a href="zucht_selektion.html">Zucht-Selektion</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Büro</a>
+                <ul>
+                    <li><a href="buero.html">Liste</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="weather-map-container">
+            <div class="weather-container">
+                <h2>Wettervorhersage</h2>
+                <div id="weather"></div>
+            </div>
+            <div class="map-container">
+                <h2>Standort</h2>
+                <div id="map"></div>
+            </div>
+        </div>
+        <h2>Völker</h2>
+        <div class="volk-section">
+            <div class="volk-container">
+                <div class="volk" id="addVolk" onclick="showVolkForm()">+</div>
+                <div id="volkContainer">
+                    <!-- Völker werden hier hinzugefügt -->
+                </div>
+            </div>
+        </div>
+        <div class="volk-form-section" id="volkFormSection" style="display:none;">
+            <h2>Volk hinzufügen</h2>
+            <form id="volkForm">
+                <div class="form-group">
+                    <label for="volkname">Volkname</label>
+                    <input type="text" id="volkname" name="volkname" required>
+                </div>
+                <button type="submit" class="btn">Volk hinzufügen</button>
+            </form>
+        </div>
+    </div>
+    <div class="popup" id="popup">
+        <h3>Möchten Sie dieses Volk wirklich löschen?</h3>
+        <button class="confirm" onclick="confirmDelete()">Ja</button>
+        <button class="cancel" onclick="closePopup()">Nein</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        let deleteIndex = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const standName = urlParams.get('stand');
+            document.getElementById('standName').textContent = standName;
+            loadVölker();
+            loadWeather(standName);
+            loadMap(standName);
+
+            document.getElementById('volkForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const volkname = document.getElementById('volkname').value;
+                addVolk(volkname);
+                document.getElementById('volkForm').reset();
+                document.getElementById('volkFormSection').style.display = 'none';
+            });
+        });
+
+        function showVolkForm() {
+            document.getElementById('volkFormSection').style.display = 'block';
+        }
+
+        function addVolk(volkname) {
+            const standName = new URLSearchParams(window.location.search).get('stand');
+            let völker = JSON.parse(localStorage.getItem('völker')) || {};
+            if (!völker[standName]) {
+                völker[standName] = [];
+            }
+            völker[standName].push(volkname);
+            localStorage.setItem('völker', JSON.stringify(völker));
+            renderVolk(volkname, völker[standName].length - 1);
+        }
+
+        function loadVölker() {
+            const standName = new URLSearchParams(window.location.search).get('stand');
+            let völker = JSON.parse(localStorage.getItem('völker')) || {};
+            if (völker[standName]) {
+                völker[standName].forEach((volkname, index) => {
+                    renderVolk(volkname, index);
+                });
+            }
+        }
+
+        function renderVolk(volkname, index) {
+            const volkContainer = document.getElementById('volkContainer');
+            const volkDiv = document.createElement('div');
+            volkDiv.className = 'volk';
+            volkDiv.innerHTML = `<h3>${volkname}</h3>`;
+            volkDiv.addEventListener('click', function() {
+                window.location.href = 'volk_verwalten.html?volk=' + encodeURIComponent(volkname);
+            });
+            volkDiv.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                deleteIndex = index;
+                showPopup();
+            });
+            volkContainer.appendChild(volkDiv);
+        }
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            const standName = new URLSearchParams(window.location.search).get('stand');
+            let völker = JSON.parse(localStorage.getItem('völker')) || {};
+            if (völker[standName]) {
+                völker[standName].splice(deleteIndex, 1);
+                localStorage.setItem('völker', JSON.stringify(völker));
+                loadVölker();
+            }
+            closePopup();
+        }
+
+        function loadWeather(standName) {
+            let stände = JSON.parse(localStorage.getItem('stände')) || [];
+            const stand = stände.find(s => s.name === standName);
+
+            if (stand && stand.location) {
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${stand.location.lat}&longitude=${stand.location.lng}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Europe/Berlin`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const weatherContainer = document.getElementById('weather');
+                        weatherContainer.innerHTML = '';
+                        data.daily.time.forEach((date, index) => {
+                            const weatherItem = document.createElement('div');
+                            weatherItem.className = 'weather-item';
+                            weatherItem.innerHTML = `
+                                <strong>${date}</strong><br>
+                                Max: ${data.daily.temperature_2m_max[index]}°C<br>
+                                Min: ${data.daily.temperature_2m_min[index]}°C<br>
+                                Niederschlag: ${data.daily.precipitation_sum[index]}mm
+                            `;
+                            weatherContainer.appendChild(weatherItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching weather data:', error);
+                    });
+            }
+        }
+
+        function loadMap(standName) {
+            let stände = JSON.parse(localStorage.getItem('stände')) || [];
+            const stand = stände.find(s => s.name === standName);
+
+            if (stand && stand.location) {
+                let map = L.map('map').setView([stand.location.lat, stand.location.lng], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                L.marker([stand.location.lat, stand.location.lng]).addTo(map);
+            }
+        }
+    </script>
+</body>
+</html>

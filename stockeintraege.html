@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockeinträge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stockeinträge für <span id="volkName"></span></h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="stockeintraege.html">Stockeinträge</a>
+        <a href="digitale_stockkarte.html">Digitale Stockkarte</a>
+    </nav>
+    <div class="container">
+        <h1>Neuen Stockeintrag hinzufügen</h1>
+        <form id="stockForm">
+            <div class="form-group">
+                <label for="stockname">Stockname</label>
+                <input type="text" id="stockname" name="stockname" required>
+            </div>
+            <div class="form-group">
+                <label for="datum">Datum</label>
+                <input type="date" id="datum" name="datum" required>
+            </div>
+            <div class="form-group">
+                <label for="beschreibung">Beschreibung</label>
+                <textarea id="beschreibung" name="beschreibung" required></textarea>
+            </div>
+            <button type="submit" class="btn">Eintrag hinzufügen</button>
+        </form>
+        <h2>Stockeinträge</h2>
+        <table id="entriesTable">
+            <thead>
+                <tr>
+                    <th>Stockname</th>
+                    <th>Datum</th>
+                    <th>Beschreibung</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Einträge werden hier hinzugefügt -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const volkName = urlParams.get('volk');
+            document.getElementById('volkName').textContent = volkName;
+            loadEntries(volkName);
+
+            document.getElementById('stockForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const stockname = document.getElementById('stockname').value;
+                const datum = document.getElementById('datum').value;
+                const beschreibung = document.getElementById('beschreibung').value;
+                addEntry(volkName, stockname, datum, beschreibung);
+                document.getElementById('stockForm').reset();
+            });
+        });
+
+        function addEntry(volkName, stockname, datum, beschreibung) {
+            let entries = JSON.parse(localStorage.getItem('entries')) || {};
+            if (!entries[volkName]) {
+                entries[volkName] = [];
+            }
+            entries[volkName].push({ stockname, datum, beschreibung });
+            localStorage.setItem('entries', JSON.stringify(entries));
+            renderEntry(stockname, datum, beschreibung);
+        }
+
+        function loadEntries(volkName) {
+            let entries = JSON.parse(localStorage.getItem('entries')) || {};
+            if (entries[volkName]) {
+                entries[volkName].forEach(entry => {
+                    renderEntry(entry.stockname, entry.datum, entry.beschreibung);
+                });
+            }
+        }
+
+        function renderEntry(stockname, datum, beschreibung) {
+            const table = document.getElementById('entriesTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            cell1.textContent = stockname;
+            cell2.textContent = datum;
+            cell3.textContent = beschreibung;
+        }
+    </script>
+</body>
+</html>
