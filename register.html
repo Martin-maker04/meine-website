@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imkerverwaltungs-Login & Registrierung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-switch a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .form-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="form-title">Registrierung</h1>
+
+    <form id="auth-form">
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Passwort:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" id="submit-btn">Registrieren</button>
+    </form>
+
+    <div class="form-switch">
+        <p id="switch-text">Schon ein Konto? <a href="#" id="switch-to-login">Login</a></p>
+    </div>
+
+    <div id="message"></div>
+</div>
+
+<script>
+    const authForm = document.getElementById('auth-form');
+    const switchText = document.getElementById('switch-text');
+    const switchToLogin = document.getElementById('switch-to-login');
+    const formTitle = document.getElementById('form-title');
+    const submitBtn = document.getElementById('submit-btn');
+    const messageDiv = document.getElementById('message');
+
+    let isLoginForm = false;
+
+    // Wechseln zwischen Registrierung und Login
+    switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        isLoginForm = !isLoginForm;
+
+        if (isLoginForm) {
+            formTitle.textContent = 'Login';
+            submitBtn.textContent = 'Einloggen';
+            switchText.innerHTML = 'Kein Konto? <a href="#" id="switch-to-register">Registrieren</a>';
+            document.getElementById('switch-to-register').addEventListener('click', (e) => {
+                e.preventDefault();
+                isLoginForm = !isLoginForm;
+                switchText.innerHTML = 'Schon ein Konto? <a href="#" id="switch-to-login">Login</a>';
+                formTitle.textContent = 'Registrierung';
+                submitBtn.textContent = 'Registrieren';
+            });
+        }
+    });
+
+    authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const endpoint = isLoginForm ? '/login' : '/register';
+        const requestData = { username, password };
+
+        try {
+            const response = await fetch(`http://localhost:5000${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                messageDiv.innerHTML = `<p class="success-message">${isLoginForm ? 'Erfolgreich eingeloggt!' : 'Erfolgreich registriert!'}</p>`;
+            } else {
+                messageDiv.innerHTML = `<p class="error-message">${result.message || 'Ein Fehler ist aufgetreten!'}</p>`;
+            }
+        } catch (error) {
+            messageDiv.innerHTML = `<p class="error-message">Fehler bei der Verbindung zum Server!</p>`;
+        }
+    });
+</script>
+
+</body>
+</html>
